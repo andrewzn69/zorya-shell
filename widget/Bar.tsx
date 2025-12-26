@@ -24,7 +24,7 @@ function Workspaces({ monitorId }: { monitorId: number }) {
 					const isActive = hyprland.get_focused_workspace()?.get_id() === id
 
 					return (
-						<button cssName={`workspace ${isActive ? 'active' : ''} ${isEmpty ? 'empty' : 'occupied'}`} onClicked={() => hyprland.dispatch(`workspace ${id}`)}>
+						<button cssName={`workspace ${isActive ? 'active' : ''} ${isEmpty ? 'empty' : 'occupied'}`} onClicked={() => hyprland.dispatch("workspace", `${id}`)}>
 							<label label={`${id}`} />
 						</button>
 					)
