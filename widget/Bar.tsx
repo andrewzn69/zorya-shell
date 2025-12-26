@@ -16,7 +16,7 @@ function Workspaces({ monitorConnector }: { monitorConnector: string }) {
 		if (barConfig.debug) {
 			console.log(`Workspace ${ws.get_id()}: monitor=${wsMonitorName}, looking for ${monitorConnector}`)
 		}
-		return wsMonitor === monitorConnector
+		return wsMonitorName === monitorConnector
 	}).sort((a, b) => a.get_id() - b.get_id())
 
 	if (barConfig.debug) {
