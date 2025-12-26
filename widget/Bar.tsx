@@ -9,7 +9,6 @@ const hyprland = Hyprland.get_default()
 function Workspaces({ monitorConnector }: { monitorConnector: string }) {
 	// get all workspaces from hyprland
 	const allWorkspaces = hyprland.get_workspaces()
-	const monitorName = gdkmonitor.model
 
 	// filter workspaces assignerd to this monitor
 	const monitorWorkspaces = allWorkspaces.filter(ws => {
