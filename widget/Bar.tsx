@@ -5,7 +5,7 @@ import { createPoll } from "ags/time"
 
 const hyprland = Hyprland.get_default()
 
-function Workspaces({ gdkmonitor }: { gdkmonitor: gdkMonitor }) {
+function Workspaces({ monitorConnector }: { monitorConnector: string }) {
 	// get all workspaces from hyprland
 	const allWorkspaces = hyprland.get_workspaces()
 	const monitorName = gdkmonitor.model
@@ -13,7 +13,7 @@ function Workspaces({ gdkmonitor }: { gdkmonitor: gdkMonitor }) {
 	// filter workspaces assignerd to this monitor
 	const monitorWorkspaces = allWorkspaces.filter(ws => {
 		const wsMonitor = hyprland.get_monitor(ws.get_monitor())
-		return wsMonitor?.get_name() === monitorName
+		return wsMonitor?.get_name() === monitorConnector
 	}).sort((a, b) => a.get_id() - b.get_id())
 
 	return (
@@ -58,7 +58,7 @@ function Clock() {
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
 	const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
-	const monitorId = app.get_monitors().indexOf(gdkmonitor)
+	const monitorConnector = gdkmonitor.get_connector()
 
 	if (monitorId === 0) {
 		return (
@@ -73,7 +73,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 			>
 				<centerbox>
 					<box $type="start">
-						<Workspaces gdkmonitor={gdkmonitor} />
+						<Workspaces monitorConnector={monitorConnector} />
 					</box>
 					<box $type="center">
 						<Spotify />
@@ -96,7 +96,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 				application={app}
 			>
 				<box>
-					<Workspaces monitorId={monitorId} />
+					<Workspaces monitorConnector={monitorConnector} />
 				</box>
 			</window>
 		)
