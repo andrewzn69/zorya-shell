@@ -1,20 +1,78 @@
-// https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
-$fg-color: #{"@theme_fg_color"};
-$bg-color: #{"@theme_bg_color"};
+// colors
+$bg-transparent: transparent;
+$container-bg: #1D2022;
+$container-border: #6A3837;
+$workspace-empty: #3C3C3C;
+$workspace-occupied: #6A3837;
+$text-color: #AD685A;
+$text-active: #FFFFFF;
+
+// spacing
+$margin: 10px;
+$padding: 8px;
+$padding-large: 16px;
+$workspace-spacing: 4px;
+
+// sizes
+$workspace-size: 24px;
+$workspace-pill-width: 48px;
+$border-width: 2px;
 
 window.Bar {
-  background: transparent;
-  color: $fg-color;
-  font-weight: bold;
+  background-color: $bg-transparent;
 
-  > centerbox {
-    background: $bg-color;
-    border-radius: 10px;
-    margin: 8px;
+  .workspaces-container {
+    background-color: $container-bg;
+    border: $border-width solid $container-border;
+    margin: $margin;
+    padding: $padding;
+    border-radius: 0px;
   }
 
-  button {
-    border-radius: 8px;
-    margin: 2px;
+  .workspaces {
+    padding: $workspace-spacing;
+  }
+
+  .workspace button {
+    min-width: $workspace-size;
+    min-height: $workspace-size;
+    padding: 0;
+    margin: 0;
+    border-radius: 50%;
+    transition: all 0.2 ease;
+  }
+
+  .workspace.empty button {
+    background-color: $workspace-empty;
+    color: transparent;
+  }
+
+  .workspace.occupied button {
+    background-color: $workspace-occupied;
+    color: $text-active;
+  }
+
+  .workspace.active button {
+    border-radius: 12px;
+    min-width: $workspace-pill-width;
+  }
+
+  .spotify-container {
+    background-color: $container-bg;
+    border: $border-width solid $container-border;
+    margin: $margin;
+    padding: $padding $padding-large;
+    border-radius: 0px;
+    color: $text-color;
+  }
+
+  .clock-container {
+    background-color: $container-bg;
+    border: $border-width solid $container-border;
+    margin: $margin;
+    padding: $padding $padding-large;
+    border-radius: 0px;
+    color: $text-color;
+    font-weight: bold;
   }
 }
