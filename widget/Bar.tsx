@@ -13,8 +13,15 @@ function Workspaces({ monitorConnector }: { monitorConnector: string }) {
 	// filter workspaces assignerd to this monitor
 	const monitorWorkspaces = allWorkspaces.filter(ws => {
 		const wsMonitor = hyprland.get_monitor(ws.get_monitor())
+		if (barConfig.debug) {
+			console.log(`Workspace ${ws.get_id()}: monitor name = ${wsMonitor?.get_name()}, looking for ${monitorConnector}`)
+		}
 		return wsMonitor?.get_name() === monitorConnector
 	}).sort((a, b) => a.get_id() - b.get_id())
+
+	if (barConfig.debug) {
+		console.log(`Monitor ${monitorConnector}: found ${monitorWorkspaces.length} workspaces`)
+	}
 
 	return (
 		<box class="workspaces-container">
