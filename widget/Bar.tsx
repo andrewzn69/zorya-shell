@@ -1,7 +1,6 @@
 import app from "ags/gtk4/app"
-import { Astal, Gtk, Gdk } from "ags/gtk4"
+import { Astal, Gdk } from "ags/gtk4"
 import Hyprland from "gi://AstalHyprland"
-import { execAsync } from "ags/process"
 import { createPoll } from "ags/time"
 
 const hyprland = Hyprland.get_default()
