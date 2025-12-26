@@ -106,15 +106,17 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 				anchor={TOP | LEFT | RIGHT}
 				application={app}
 			>
-				<box>
-					<Workspaces monitorConnector={monitorConnector} />
-				</box>
-				<box $type="center">
-					<label label="TODO: System info" />
-				</box>
-				<box $type="end">
-					<Clock />
-				</box>
+				<centerbox>
+					<box $type="start">
+						<Workspaces monitorConnector={monitorConnector} />
+					</box>
+					<box $type="center">
+						<label label="TODO: System info" />
+					</box>
+					<box $type="end">
+						<Clock />
+					</box>
+				</centerbox>
 			</window>
 		)
 	} else {
