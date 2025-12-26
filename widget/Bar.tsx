@@ -5,15 +5,16 @@ import { createPoll } from "ags/time"
 
 const hyprland = Hyprland.get_default()
 
-function Workspaces({ monitorId }: { monitorId: number }) {
+function Workspaces({ gdkmonitor }: { gdkmonitor: gdkMonitor }) {
 	// get all workspaces from hyprland
 	const allWorkspaces = hyprland.get_workspaces()
+	const monitorName = gdkmonitor.model
 
 	// filter workspaces assignerd to this monitor
 	const monitorWorkspaces = allWorkspaces.filter(ws => {
 		const wsMonitor = hyprland.get_monitor(ws.get_monitor())
-		return wsMonitor?.get_id() === monitorId
-	})
+		return wsMonitor?.get_name() === monitorName
+	}).sort((a, b) => a.get_id() - b.get_id())
 
 	return (
 		<box class="workspaces-container">
@@ -72,7 +73,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 			>
 				<centerbox>
 					<box $type="start">
-						<Workspaces monitorId={monitorId} />
+						<Workspaces gdkmonitor={gdkmonitor} />
 					</box>
 					<box $type="center">
 						<Spotify />
