@@ -1,0 +1,7 @@
+{
+	"monitors": {
+		"0": "secondary",
+		"1": "primary",
+		"2": "tertiary"
+	}
+}
