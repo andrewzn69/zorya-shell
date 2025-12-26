@@ -16,15 +16,15 @@ function Workspaces({ monitorId }: { monitorId: number }) {
 	})
 
 	return (
-		<box cssName="workspaces-container">
-			<box cssName="workspaces" spacing={8}>
+		<box class="workspaces-container">
+			<box class="workspaces" spacing={8}>
 				{monitorWorkspaces.map((workspace) => {
 					const id = workspace.get_id()
 					const isEmpty = workspace.get_clients().length === 0
 					const isActive = hyprland.get_focused_workspace()?.get_id() === id
 
 					return (
-						<button cssName={`workspace ${isActive ? 'active' : ''} ${isEmpty ? 'empty' : 'occupied'}`} onClicked={() => hyprland.dispatch("workspace", `${id}`)}>
+						<button class={`workspace ${isActive ? 'active' : ''} ${isEmpty ? 'empty' : 'occupied'}`} onClicked={() => hyprland.dispatch("workspace", `${id}`)}>
 							<label label={`${id}`} />
 						</button>
 					)
@@ -36,7 +36,7 @@ function Workspaces({ monitorId }: { monitorId: number }) {
 
 function Spotify() {
 	return (
-		<box cssName="spotify-container">
+		<box class="spotify-container">
 			<label label=" Paused" />
 		</box>
 	)
@@ -49,7 +49,7 @@ function Clock() {
 	})
 
 	return (
-		<box cssName="clock-container">
+		<box class="clock-container">
 			<label label={time} />
 		</box>
 	)
@@ -64,7 +64,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 			<window
 				visible
 				name={`bar-${monitorId}`}
-				cssName="Bar"
+				class="Bar"
 				gdkmonitor={gdkmonitor}
 				exclusivity={Astal.Exclusivity.EXCLUSIVE}
 				anchor={TOP | LEFT | RIGHT}
@@ -88,7 +88,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 			<window
 				visible
 				name={`bar-${monitorId}`}
-				cssName="Bar"
+				class="Bar"
 				gdkmonitor={gdkmonitor}
 				exclusivity={Astal.Exclusivity.EXCLUSIVE}
 				anchor={TOP | LEFT | RIGHT}
