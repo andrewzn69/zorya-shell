@@ -46,17 +46,12 @@ window.Bar {
 
   button.workspace.empty {
     background-color: $workspace-empty;
-    color: transparent;
+    color: $bg-transparent;
   }
 
   button.workspace.occupied {
     background-color: $workspace-occupied;
-    color: blue;
-  }
-
-  button.workspace.occupied.label {
-    background-color: yellow;
-    color: red;
+    color: $bg-transparent;
   }
 
   button.workspace.active {
