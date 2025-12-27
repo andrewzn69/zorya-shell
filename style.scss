@@ -48,8 +48,13 @@ window.Bar {
   }
 
   button.workspace.occupied {
-    background-color: $workspace-occupied;
-    color: $text-active;
+    background-color: green;
+    color: blue;
+  }
+
+  button.workspace.occupied.label {
+    background-color: yellow;
+    color: red;
   }
 
   button.workspace.active {
