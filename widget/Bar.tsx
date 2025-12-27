@@ -7,33 +7,35 @@ import { createPoll } from "ags/time"
 const hyprland = Hyprland.get_default()
 
 function Workspaces({ monitorConnector }: { monitorConnector: string }) {
-	// get all workspaces from hyprland
-	const allWorkspaces = hyprland.get_workspaces()
+	// query workspace rules via astalhyprland ipc
+	const workspaceRulesJson = hyprland.message("j/workspacerules")
+	const workspaceRules = JSON.parse(workspaceRulesJson)
 
-	// filter workspaces assignerd to this monitor
-	const monitorWorkspaces = allWorkspaces.filter(ws => {
-		const wsMonitorName = ws.monitor.name
-		if (barConfig.debug) {
-			console.log(`Workspace ${ws.get_id()}: monitor=${wsMonitorName}, looking for ${monitorConnector}`)
-		}
-		return wsMonitorName === monitorConnector
-	}).sort((a, b) => a.get_id() - b.get_id())
+	// get all workspace ids assigned to this monitor from rules
+	const assignedWorkspaces = workspaceRules
+		.filter(rule => rule.monitor === monitorConnector)
+		.map(rule => parseInt(rule.workspaceString))
+		.sort((a, b) => a - b)
+
+	// get existing workspaces to check occupied/active status
+	const existingWorkspaces = hyprland.get_workspaces()
+	const focusedWorkspaceId = hyprland.get_focused_workspace()?.get_id()
 
 	if (barConfig.debug) {
-		console.log(`Monitor ${monitorConnector}: found ${monitorWorkspaces.length} workspaces`)
+		console.log(`Monitor ${monitorConnector}: assigned workspaces = ${assignedWorkspaces}`)
 	}
 
 	return (
 		<box class="workspaces-container">
 			<box class="workspaces" spacing={8}>
-				{monitorWorkspaces.map((workspace) => {
-					const id = workspace.get_id()
-					const isEmpty = workspace.get_clients().length === 0
-					const isActive = hyprland.get_focused_workspace()?.get_id() === id
+				{assignedWorkspaces.map((wsId) => {
+					const existingWs = existingWorkspaces.find(w => w.get_id() === wsId)
+					const isEmpty = !existingWs || existingWs.get_clients().length === 0
+					const isActive = focusedWorkspaceId === wsId
 
 					return (
-						<button class={`workspace ${isActive ? 'active' : ''} ${isEmpty ? 'empty' : 'occupied'}`} onClicked={() => hyprland.dispatch("workspace", `${id}`)}>
-							<label label={`${id}`} />
+						<button class={`workspace ${isActive ? 'active' : ''} ${isEmpty ? 'empty' : 'occupied'}`} onClicked={() => hyprland.dispatch("workspace", `${wsId}`)}>
+							<label label={`${wsId}`} />
 						</button>
 					)
 				})}
