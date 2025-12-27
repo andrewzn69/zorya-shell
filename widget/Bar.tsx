@@ -27,7 +27,7 @@ function WorkspaceButton({ wsId }: { wsId: number }) {
 				hyprland.connect("notify::workspaces", update)
 				hyprland.connect("notify::focused-workspace", update)
 			}}
-			onClicked{() => hyprland.dispatch("workspace", `${wsId}`)}
+			onClicked={() => hyprland.dispatch("workspace", `${wsId}`)}
 		>
 			<label label={`${wsId}`} />
 		</button >
