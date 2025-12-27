@@ -3,14 +3,16 @@ import app from "ags/gtk4/app"
 import { Astal, Gdk } from "ags/gtk4"
 import Hyprland from "gi://AstalHyprland"
 import { createPoll } from "ags/time"
-import { bind } from "astal"
+import { createBinding } from "ags"
 
 const hyprland = Hyprland.get_default()
 
 function WorkspaceButton({ wsId }: { wsId: number }) {
-	return bind(hyprland, "focused_workspace").as((focused) => {
-		const existingWorkspaces = hyprland.get_workspaces()
-		const existingWs = existingWorkspaces.find(w => w.get_id() === wsId)
+	const workspaces = createBinding(hyprland, "workspaces")
+	const focusedWorkspace = createBinding(hyprland, "focused-workspace")
+
+	return workspaces((ws) => focusedWorkspace((focused) => {
+		const existingWs = ws.find(w => w.get_id() === wsId)
 		const isEmpty = !existingWs || existingWs.get_clients().length === 0
 		const isActive = focused?.get_id() === wsId
 
@@ -22,7 +24,7 @@ function WorkspaceButton({ wsId }: { wsId: number }) {
 				<label label={`${wsId}`} />
 			</button>
 		)
-	})
+	}))
 }
 
 function Workspaces({ monitorConnector }: { monitorConnector: string }) {
