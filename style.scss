@@ -33,7 +33,7 @@ window.Bar {
     padding: $workspace-spacing;
   }
 
-  .workspace button {
+  button.workspace {
     min-width: $workspace-size;
     min-height: $workspace-size;
     padding: 0;
@@ -42,17 +42,17 @@ window.Bar {
     transition: all 0.2s ease;
   }
 
-  .workspace.empty button {
+  button.workspace.empty {
     background-color: $workspace-empty;
     color: transparent;
   }
 
-  .workspace.occupied button {
+  button.workspace.occupied {
     background-color: $workspace-occupied;
     color: $text-active;
   }
 
-  .workspace.active button {
+  button.workspace.active {
     border-radius: 12px;
     min-width: $workspace-pill-width;
   }
