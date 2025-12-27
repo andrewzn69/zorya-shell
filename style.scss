@@ -14,7 +14,7 @@ $padding-large: 16px;
 $workspace-spacing: 4px;
 
 // sizes
-$workspace-size: 10px;
+$workspace-size: 12px;
 $workspace-pill-width: 36px;
 $border-width: 2px;
 
@@ -42,6 +42,7 @@ window.Bar {
     transition: all 0.2s ease;
     background-image: none;
     border: none;
+    font-size: 2px;
   }
 
   button.workspace.empty {
