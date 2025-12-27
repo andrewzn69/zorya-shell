@@ -50,7 +50,7 @@ window.Bar {
   }
 
   button.workspace.occupied {
-    background-color: green !important;
+    background-color: $workspace-occupied;
     color: blue;
   }
 
