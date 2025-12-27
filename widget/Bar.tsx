@@ -6,6 +6,34 @@ import { createPoll } from "ags/time"
 
 const hyprland = Hyprland.get_default()
 
+function WorkspaceButton({ wsId }: { wsId: number }) {
+	return (
+		<button
+			class="workspace"
+			setup={(self) => {
+				const update = () => {
+					const existingWorkspaces = hyprland.get_workspaces()
+					const focusedWorkspaceId = hyprland.get_focused_workspace()?.get_id()
+					const existingWs = existingWorkspaces.find(w => w.get_id() === wsId)
+					const isEmpty = !existingWs || existingWs.get_clients().length === 0
+					const isActive = focusedWorkspaceId === wsId
+
+					self.toggleClassName("active", isActive)
+					self.toggleClassName("empty", isEmpty)
+					self.toggleClassName("occupied", !isEmpty)
+				}
+
+				update()
+				hyprland.connect("notify::workspaces", update)
+				hyprland.connect("notify::focused-workspace", update)
+			}}
+			onClicked{() => hyprland.dispatch("workspace", `${wsId}`)}
+		>
+			<label label={`${wsId}`} />
+		</button >
+	)
+}
+
 function Workspaces({ monitorConnector }: { monitorConnector: string }) {
 	// query workspace rules via astalhyprland ipc
 	const workspaceRulesJson = hyprland.message("j/workspacerules")
@@ -28,17 +56,7 @@ function Workspaces({ monitorConnector }: { monitorConnector: string }) {
 	return (
 		<box class="workspaces-container">
 			<box class="workspaces" spacing={8}>
-				{assignedWorkspaces.map((wsId) => {
-					const existingWs = existingWorkspaces.find(w => w.get_id() === wsId)
-					const isEmpty = !existingWs || existingWs.get_clients().length === 0
-					const isActive = focusedWorkspaceId === wsId
-
-					return (
-						<button class={`workspace ${isActive ? 'active' : ''} ${isEmpty ? 'empty' : 'occupied'}`} onClicked={() => hyprland.dispatch("workspace", `${wsId}`)}>
-							<label label={`${wsId}`} />
-						</button>
-					)
-				})}
+				{assignedWorkspaces.map((wsId) => <WorkspaceButton wsId={wsId} />)}
 			</box>
 		</box>
 	)
