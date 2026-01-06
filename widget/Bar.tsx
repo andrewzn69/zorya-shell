@@ -7,13 +7,18 @@ import { createState } from "ags"
 
 const hyprland = Hyprland.get_default()
 
+interface WorkspaceRule {
+	workspaceString: string
+	monitor: string
+}
+
 function WorkspaceButton({ wsId }: { wsId: number }) {
 	const [classes, setClasses] = createState("")
 
 	const updateClasses = () => {
 		const workspaces = hyprland.get_workspaces()
 		const focused = hyprland.get_focused_workspace()
-		const existingWs = workspaces.find(w => w.get_id() === wsId)
+		const existingWs = workspaces.find((w: Hyprland.Workspace) => w.get_id() === wsId)
 		const isEmpty = !existingWs || existingWs.get_clients().length === 0
 		const isActive = focused?.get_id() === wsId
 
@@ -38,7 +43,7 @@ function WorkspaceButton({ wsId }: { wsId: number }) {
 function Workspaces({ monitorConnector }: { monitorConnector: string }) {
 	// query workspace rules via astalhyprland ipc
 	const workspaceRulesJson = hyprland.message("j/workspacerules")
-	const workspaceRules = JSON.parse(workspaceRulesJson)
+	const workspaceRules: WorkspaceRule[] = JSON.parse(workspaceRulesJson)
 
 	// get all workspace ids assigned to this monitor from rules
 	const assignedWorkspaces = workspaceRules
@@ -84,7 +89,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 	const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
 	const monitorConnector = gdkmonitor.get_connector()
 	if (!monitorConnector) return <box />
-	const hyprMonitor = hyprland.get_monitors().find(m => m.get_name() === monitorConnector)
+	const hyprMonitor = hyprland.get_monitors().find((m: Hyprland.Monitor) => m.get_name() === monitorConnector)
 	const monitorId = hyprMonitor?.get_id().toString() || "0"
 	const role = (barConfig.monitors as Record<string, string>)[monitorId] || "tertiary"
 
