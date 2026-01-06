@@ -46,10 +46,6 @@ function Workspaces({ monitorConnector }: { monitorConnector: string }) {
 		.map(rule => parseInt(rule.workspaceString))
 		.sort((a, b) => a - b)
 
-	// get existing workspaces to check occupied/active status
-	const existingWorkspaces = hyprland.get_workspaces()
-	const focusedWorkspaceId = hyprland.get_focused_workspace()?.get_id()
-
 	if (barConfig.debug) {
 		console.log(`Monitor ${monitorConnector}: assigned workspaces = ${assignedWorkspaces}`)
 	}
