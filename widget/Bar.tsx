@@ -90,7 +90,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 	if (!monitorConnector) return <box />
 	const hyprMonitor = hyprland.get_monitors().find(m => m.get_name() === monitorConnector)
 	const monitorId = hyprMonitor?.get_id().toString() || "0"
-	const role = barConfig.monitors[monitorId] || "tertiary"
+	const role = (barConfig.monitors as Record<string, string>)[monitorId] || "tertiary"
 
 	if (role === "primary") {
 		return (
