@@ -3,28 +3,35 @@ import app from "ags/gtk4/app"
 import { Astal, Gdk } from "ags/gtk4"
 import Hyprland from "gi://AstalHyprland"
 import { createPoll } from "ags/time"
-import { createBinding } from "ags"
+import { createBinding, createComputed, createState } from "ags"
 
 const hyprland = Hyprland.get_default()
 
 function WorkspaceButton({ wsId }: { wsId: number }) {
-	const workspaces = createBinding(hyprland, "workspaces")
-	const focusedWorkspace = createBinding(hyprland, "focused-workspace")
+	const [classes, setClasses] = createState("")
 
-	return workspaces((ws) => focusedWorkspace((focused) => {
-		const existingWs = ws.find(w => w.get_id() === wsId)
+	const updateClasses = () => {
+		const workspaces = hyprland.get_workspaces()
+		const focused = hyprland.get_focused_workspace()
+		const existingWs = workspaces.find(w => w.get_id() === wsId)
 		const isEmpty = !existingWs || existingWs.get_clients().length === 0
 		const isActive = focused?.get_id() === wsId
 
-		return (
-			<button
-				class={`workspace ${isActive ? 'active' : ''} ${isEmpty ? 'empty' : 'occupied'}`}
-				onClicked={() => hyprland.dispatch("workspace", `${wsId}`)}
-			>
-				<label label={`${wsId}`} />
-			</button>
-		)
-	}))
+		setClasses(`workspace ${isActive ? 'active' : ''} ${isEmpty ? 'empty' : 'occupied'}`)
+	}
+
+	updateClasses() // initial render
+	hyprland.connect("notify::workspaces", updateClasses)
+	hyprland.connect("notify::focused-workspace", updateClasses)
+
+	return (
+		<button
+			class={classes}
+			onClicked={() => hyprland.dispatch("workspace", `${wsId}`)}
+		>
+			<label label={`${wsId}`} />
+		</button>
+	)
 }
 
 function Workspaces({ monitorConnector }: { monitorConnector: string }) {
