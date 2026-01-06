@@ -23,6 +23,7 @@ function WorkspaceButton({ wsId }: { wsId: number }) {
 	updateClasses() // initial render
 	hyprland.connect("notify::workspaces", updateClasses)
 	hyprland.connect("notify::focused-workspace", updateClasses)
+	hyprland.connect("notify::clients", updateClasses)
 
 	return (
 		<button
