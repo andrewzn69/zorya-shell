@@ -3,7 +3,7 @@ import app from "ags/gtk4/app"
 import { Astal, Gdk } from "ags/gtk4"
 import Hyprland from "gi://AstalHyprland"
 import { createPoll } from "ags/time"
-import { createBinding, createComputed, createState } from "ags"
+import { createState } from "ags"
 
 const hyprland = Hyprland.get_default()
 
