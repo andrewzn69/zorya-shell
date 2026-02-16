@@ -34,6 +34,7 @@ export default function Spotify() {
 	let counter = 0
 
 	GLib.timeout_add(GLib.PRIORITY_DEFAULT, FRAME_MS, () => {
+		try {
 		// TODO: remove debug
 		const adj = sw.get_hadjustment()
 		console.log(`[spotify] fields=${fields.length} adj=${adj ? `upper=${adj.upper} page=${adj.page_size}` : 'null'} label="${label.label}"`)
@@ -88,6 +89,7 @@ export default function Spotify() {
 				}
 				break
 		}
+		} catch(e) { console.error(`[spotify] timer error: ${e}`) }
 		return true
 	})
 
