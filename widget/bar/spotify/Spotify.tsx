@@ -7,7 +7,8 @@ const FRAME_MS = 16
 const SCROLL_SPEED = 0.5
 const HOLD_FRAMES_TITLE = 1875   // ~30s total for title
 const HOLD_FRAMES_META = 312     // ~5s for artist/album
-const HOLD_FRAMES_END = 90       // ~1.5s wait at each end
+const HOLD_FRAMES_END_INITIAL = 90   // ~1.5s for first two ends
+const HOLD_FRAMES_END_REPEAT = 312   // ~5s after first full bounce
 const FADE_FRAMES = 45           // ~720ms
 
 const enum Phase { SCROLLING, HOLDING, FADE_OUT, FADE_IN }
@@ -34,6 +35,7 @@ export default function Spotify() {
 	let scrollDir = 1       // 1 = forward, -1 = backward (title bounce only)
 	let scrollWait = 0      // frames to wait at bounce end
 	let titleTimer = 0      // total frames elapsed for current title display
+	let bounceCount = 0     // how many ends reached so far
 
 	const _tick = createPoll("", FRAME_MS, () => {
 		const adj = sw.get_hadjustment()
@@ -42,7 +44,7 @@ export default function Spotify() {
 		switch (phase) {
 			case Phase.SCROLLING: {
 				// Initial wait before scrolling starts
-				if (counter < HOLD_FRAMES_END) {
+				if (counter < HOLD_FRAMES_END_INITIAL) {
 					counter++
 					if (idx === 0) titleTimer++
 					break
@@ -53,7 +55,7 @@ export default function Spotify() {
 				if (maxScroll <= 0) {
 					// Text fits — go to hold with pre-scroll time already counted
 					phase = Phase.HOLDING
-					counter = HOLD_FRAMES_END
+					counter = HOLD_FRAMES_END_INITIAL
 					break
 				}
 
@@ -77,12 +79,14 @@ export default function Spotify() {
 						pixelOffset = maxScroll
 						adj.value = pixelOffset
 						scrollDir = -1
-						scrollWait = HOLD_FRAMES_END
+						bounceCount++
+						scrollWait = bounceCount < 2 ? HOLD_FRAMES_END_INITIAL : HOLD_FRAMES_END_REPEAT
 					} else if (pixelOffset <= 0) {
 						pixelOffset = 0
 						adj.value = 0
 						scrollDir = 1
-						scrollWait = HOLD_FRAMES_END
+						bounceCount++
+						scrollWait = bounceCount < 2 ? HOLD_FRAMES_END_INITIAL : HOLD_FRAMES_END_REPEAT
 					} else {
 						adj.value = pixelOffset
 					}
@@ -93,7 +97,7 @@ export default function Spotify() {
 						pixelOffset = maxScroll
 						adj.value = pixelOffset
 						phase = Phase.HOLDING
-						counter = HOLD_FRAMES_META - HOLD_FRAMES_END
+						counter = HOLD_FRAMES_META - HOLD_FRAMES_END_INITIAL
 					} else {
 						adj.value = pixelOffset
 					}
@@ -138,6 +142,7 @@ export default function Spotify() {
 		scrollDir = 1
 		scrollWait = 0
 		titleTimer = 0
+		bounceCount = 0
 		label.css_classes = ['spotify-track']
 		label.label = fields[i] ?? ""
 		const adj = sw.get_hadjustment()
