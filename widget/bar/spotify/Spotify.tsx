@@ -4,9 +4,10 @@ import { createPoll } from "ags/time"
 import { createState } from "ags"
 
 const FRAME_MS = 16
-const SCROLL_SPEED = 2
-const HOLD_FRAMES = 120    // ~2s
-const FADE_FRAMES = 15     // ~240ms
+const SCROLL_SPEED = 1
+const HOLD_FRAMES_TITLE = 1875   // ~30s
+const HOLD_FRAMES_META = 312     // ~5s
+const FADE_FRAMES = 15           // ~240ms
 
 const enum Phase { SCROLLING, HOLDING, FADE_OUT, FADE_IN }
 
@@ -55,20 +56,22 @@ export default function Spotify() {
 				}
 				break
 			}
-			case Phase.HOLDING:
-				if (++counter >= HOLD_FRAMES) {
-					label.opacity = 0
+			case Phase.HOLDING: {
+				const holdFrames = idx === 0 ? HOLD_FRAMES_TITLE : HOLD_FRAMES_META
+				if (++counter >= holdFrames) {
+					label.css_classes = ['spotify-track', 'faded']
 					phase = Phase.FADE_OUT
 					counter = 0
 				}
 				break
+			}
 			case Phase.FADE_OUT:
 				if (++counter >= FADE_FRAMES) {
 					if (fields.length > 1) idx = (idx + 1) % fields.length
 					label.label = fields[idx] ?? ""
 					pixelOffset = 0
 					adj.value = 0
-					label.opacity = 1
+					label.css_classes = ['spotify-track']
 					phase = Phase.FADE_IN
 					counter = 0
 				}
@@ -88,7 +91,7 @@ export default function Spotify() {
 		phase = Phase.SCROLLING
 		pixelOffset = 0
 		counter = 0
-		label.opacity = 1
+		label.css_classes = ['spotify-track']
 		label.label = fields[i] ?? ""
 		const adj = sw.get_hadjustment()
 		if (adj) adj.value = 0
