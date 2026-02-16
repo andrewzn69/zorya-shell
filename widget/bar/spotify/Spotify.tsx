@@ -80,13 +80,13 @@ export default function Spotify() {
 						adj.value = pixelOffset
 						scrollDir = -1
 						bounceCount++
-						scrollWait = bounceCount < 2 ? HOLD_FRAMES_END_INITIAL : HOLD_FRAMES_END_REPEAT
+						scrollWait = HOLD_FRAMES_END_INITIAL  // right end: always 1.5s
 					} else if (pixelOffset <= 0) {
 						pixelOffset = 0
 						adj.value = 0
 						scrollDir = 1
 						bounceCount++
-						scrollWait = bounceCount < 2 ? HOLD_FRAMES_END_INITIAL : HOLD_FRAMES_END_REPEAT
+						scrollWait = HOLD_FRAMES_END_REPEAT   // left end: always 5s
 					} else {
 						adj.value = pixelOffset
 					}
