@@ -15,23 +15,25 @@ function readNet(): { rx: number, tx: number } {
 	return { rx: dRx, tx: dTx }
 }
 
-// Always MB/s (2s poll interval → divide delta by 2)
-function toMBs(b: number): string {
-	return (b / 2 / 1048576).toFixed(2)
+// Auto-scale to KiB/s or MiB/s (2s poll interval → divide delta by 2)
+function toRate(b: number): string {
+	const bps = b / 2
+	if (bps >= 1048576) return `${(bps / 1048576).toFixed(2)} MiB/s`
+	return `${(bps / 1024).toFixed(2)} KiB/s`
 }
 
 export default function Network() {
-	const [val, setVal] = createState("󰕒 0.00  󰇚 0.00 MB/s")
+	const [val, setVal] = createState("󰕒 0.00 KiB/s  󰇚 0.00 KiB/s")
 	const _tick = createPoll("", 2000, () => {
 		const n = readNet()
-		setVal(`󰕒 ${toMBs(n.tx)}  󰇚 ${toMBs(n.rx)} MB/s`)
+		setVal(`󰕒 ${toRate(n.tx)}  󰇚 ${toRate(n.rx)}`)
 		return ""
 	})
 
 	return (
 		<box class="network-container">
 			<label visible={false} label={_tick} />
-			<label class="sysinfo-value" label={val} widthChars={24} xalign={0} />
+			<label class="sysinfo-value" label={val} widthChars={30} xalign={0} />
 		</box>
 	)
 }
