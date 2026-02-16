@@ -32,7 +32,7 @@ export default function Network() {
 	return (
 		<box class="network-container">
 			<label visible={false} label={_tick} />
-			<label class="sysinfo-value" label={val} />
+			<label class="sysinfo-value" label={val} widthChars={20} xalign={0} />
 		</box>
 	)
 }
