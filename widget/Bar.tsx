@@ -128,7 +128,7 @@ function Spotify() {
 	return (
 		<box
 			class="spotify-container"
-			vertical
+			orientation={Gtk.Orientation.VERTICAL}
 			visible={isVisible}
 			onRealize={(self: Gtk.Widget) => {
 				const ctrl = new Gtk.EventControllerMotion()
@@ -138,7 +138,7 @@ function Spotify() {
 			}}
 		>
 			<label class="spotify-track" label={displayText} />
-			<box class="spotify-details" vertical visible={isExpanded} spacing={2}>
+			<box class="spotify-details" orientation={Gtk.Orientation.VERTICAL} visible={isExpanded} spacing={2}>
 				<label class="spotify-title" label={title} xalign={0} />
 				<label class="spotify-artist" label={artist} xalign={0} />
 				<label class="spotify-album" label={album} xalign={0} />
