@@ -63,9 +63,9 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 						<Cpu />
 						<Ram />
 						<Disk />
+						<Network />
 					</box>
 					<box $type="end">
-						<Network />
 						<Clock />
 					</box>
 				</centerbox>
