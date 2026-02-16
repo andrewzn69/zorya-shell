@@ -14,14 +14,17 @@ export default function Spotify() {
 
 	const [isVisible, setIsVisible] = createState(false)
 
-	// Gtk.Viewport is not a known gnim JSX intrinsic — create imperatively
 	const label = new Gtk.Label()
 	label.css_classes = ['spotify-track']
 	label.single_line_mode = true
 
-	const vp = new Gtk.Viewport()
-	vp.css_classes = ['spotify-viewport']
-	vp.set_child(label)
+	// ScrolledWindow constrains its own size via set_max_content_width,
+	// unlike Gtk.Viewport which always reports its child's natural size.
+	const sw = new Gtk.ScrolledWindow()
+	sw.set_policy(Gtk.PolicyType.EXTERNAL, Gtk.PolicyType.NEVER)
+	sw.set_min_content_width(280)
+	sw.set_max_content_width(280)
+	sw.set_child(label)
 
 	let pixelOffset = 0
 	let scrollState = ScrollState.SCROLLING
@@ -29,7 +32,7 @@ export default function Spotify() {
 	let prevText = ""
 
 	createPoll(0, FRAME_MS, () => {
-		const adj = vp.get_hadjustment()
+		const adj = sw.get_hadjustment()
 		if (!adj) return 0
 
 		const text = label.label
@@ -113,7 +116,7 @@ export default function Spotify() {
 		<box
 			class="spotify-container"
 			visible={isVisible}
-			onRealize={(self: Gtk.Box) => self.append(vp)}
+			onRealize={(self: Gtk.Box) => self.append(sw)}
 		/>
 	)
 }
