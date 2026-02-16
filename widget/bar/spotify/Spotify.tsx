@@ -11,6 +11,7 @@ const FADE_FRAMES = 15     // ~240ms fade
 const enum Phase { SCROLLING, HOLDING, FADE_OUT, FADE_IN }
 
 export default function Spotify() {
+	console.log("[spotify] Spotify() called")
 	const spotify = Mpris.Player.new("spotify")
 	const [isVisible, setIsVisible] = createState(false)
 
