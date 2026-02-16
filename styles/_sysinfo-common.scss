@@ -1,0 +1,18 @@
+@use 'variables' as *;
+
+@mixin sysinfo-box {
+  background-color: $container-bg;
+  border: $border-width solid $container-border;
+  margin: $margin;
+  padding: $padding $padding-large;
+  color: $text-color;
+}
+
+.sysinfo-icon {
+  color: $text-color;
+}
+
+.sysinfo-value {
+  color: $text-active;
+  font-weight: bold;
+}

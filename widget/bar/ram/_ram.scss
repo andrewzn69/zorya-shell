@@ -1,0 +1,5 @@
+@use '../../../styles/sysinfo-common' as *;
+
+window.Bar {
+  .ram-container { @include sysinfo-box; }
+}

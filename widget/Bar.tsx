@@ -5,7 +5,10 @@ import Hyprland from "gi://AstalHyprland"
 import Workspaces from "./bar/workspaces/Workspaces"
 import Spotify from "./bar/spotify/Spotify"
 import Clock from "./bar/clock/Clock"
-import SysInfo from "./bar/sysinfo/SysInfo"
+import Cpu from "./bar/cpu/Cpu"
+import Ram from "./bar/ram/Ram"
+import Disk from "./bar/disk/Disk"
+import Network from "./bar/network/Network"
 
 const hyprland = Hyprland.get_default()
 
@@ -42,7 +45,6 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 			</window>
 		)
 	} else if (role === "secondary") {
-		// TODO: Add Volume, CPU, RAM widgets later
 		return (
 			<window
 				visible
@@ -58,9 +60,12 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 						<Workspaces monitorConnector={monitorConnector} />
 					</box>
 					<box $type="center">
-						<SysInfo />
+						<Cpu />
+						<Ram />
+						<Disk />
 					</box>
 					<box $type="end">
+						<Network />
 						<Clock />
 					</box>
 				</centerbox>

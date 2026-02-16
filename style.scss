@@ -2,7 +2,10 @@
 @use 'widget/bar/workspaces/workspaces';
 @use 'widget/bar/spotify/spotify';
 @use 'widget/bar/clock/clock';
-@use 'widget/bar/sysinfo/sysinfo';
+@use 'widget/bar/cpu/cpu';
+@use 'widget/bar/ram/ram';
+@use 'widget/bar/disk/disk';
+@use 'widget/bar/network/network';
 
 window.Bar {
   background-color: $bg-transparent;
