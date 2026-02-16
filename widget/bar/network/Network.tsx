@@ -15,24 +15,23 @@ function readNet(): { rx: number, tx: number } {
 	return { rx: dRx, tx: dTx }
 }
 
-function fmtBytes(b: number): string {
-	if (b > 1048576) return `${(b / 1048576).toFixed(1)}M`
-	if (b > 1024) return `${(b / 1024).toFixed(0)}K`
-	return `${b}B`
+// Always MB/s (2s poll interval → divide delta by 2)
+function toMBs(b: number): string {
+	return (b / 2 / 1048576).toFixed(2)
 }
 
 export default function Network() {
-	const [val, setVal] = createState("󰕒 0K  󰇚 0K")
+	const [val, setVal] = createState("󰕒 0.00  󰇚 0.00 MB/s")
 	const _tick = createPoll("", 2000, () => {
 		const n = readNet()
-		setVal(`󰕒 ${fmtBytes(n.tx)}  󰇚 ${fmtBytes(n.rx)}`)
+		setVal(`󰕒 ${toMBs(n.tx)}  󰇚 ${toMBs(n.rx)} MB/s`)
 		return ""
 	})
 
 	return (
 		<box class="network-container">
 			<label visible={false} label={_tick} />
-			<label class="sysinfo-value" label={val} widthChars={20} xalign={0} />
+			<label class="sysinfo-value" label={val} widthChars={24} xalign={0} />
 		</box>
 	)
 }
