@@ -8,10 +8,10 @@ window.Bar {
     padding: $padding $padding-large;
     border-radius: 0px;
     color: $text-color;
-    min-width: 280px;
   }
 
   .spotify-track {
     font-weight: bold;
+    transition: opacity 0.4s ease;
   }
 }
