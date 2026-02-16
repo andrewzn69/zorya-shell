@@ -67,6 +67,45 @@ window.Bar {
     padding: $padding $padding-large;
     border-radius: 0px;
     color: $text-color;
+    transition: all 0.2s ease;
+  }
+
+  .spotify-track {
+    font-weight: bold;
+  }
+
+  .spotify-details {
+    margin-top: 6px;
+  }
+
+  .spotify-title {
+    color: $text-active;
+    font-weight: bold;
+  }
+
+  .spotify-artist {
+    color: $text-color;
+  }
+
+  .spotify-album {
+    color: $workspace-empty;
+    font-style: italic;
+  }
+
+  .spotify-controls {
+    margin-top: 8px;
+  }
+
+  .media-btn {
+    background: none;
+    border: none;
+    padding: 2px 8px;
+    color: $text-color;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: $text-active;
+    }
   }
 
   .clock-container {
