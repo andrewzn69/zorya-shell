@@ -1,17 +1,16 @@
 import Mpris from "gi://AstalMpris"
 import Gtk from "gi://Gtk?version=4.0"
-import GLib from "gi://GLib"
+import { createPoll } from "ags/time"
 import { createState } from "ags"
 
 const FRAME_MS = 16
-const SCROLL_SPEED = 2     // px per frame
-const HOLD_FRAMES = 120    // ~2s hold after scroll ends (or for short text)
-const FADE_FRAMES = 15     // ~240ms fade
+const SCROLL_SPEED = 2
+const HOLD_FRAMES = 120    // ~2s
+const FADE_FRAMES = 15     // ~240ms
 
 const enum Phase { SCROLLING, HOLDING, FADE_OUT, FADE_IN }
 
 export default function Spotify() {
-	console.log("[spotify] Spotify() called")
 	const spotify = Mpris.Player.new("spotify")
 	const [isVisible, setIsVisible] = createState(false)
 
@@ -19,8 +18,6 @@ export default function Spotify() {
 	label.css_classes = ['spotify-track']
 	label.single_line_mode = true
 
-	// ScrolledWindow reports natural width via max_content_width,
-	// unlike Gtk.Viewport which propagates the child's full natural size.
 	const sw = new Gtk.ScrolledWindow()
 	sw.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.NEVER)
 	sw.set_min_content_width(280)
@@ -33,22 +30,16 @@ export default function Spotify() {
 	let pixelOffset = 0
 	let counter = 0
 
-	GLib.timeout_add(GLib.PRIORITY_DEFAULT, FRAME_MS, () => {
-		try {
-		// TODO: remove debug
+	// createPoll must have its return value read in JSX to activate (lazy reactive system).
+	// We bind it to a hidden label to force activation — same pattern as Clock.
+	const _tick = createPoll("", FRAME_MS, () => {
 		const adj = sw.get_hadjustment()
-		console.log(`[spotify] fields=${fields.length} adj=${adj ? `upper=${adj.upper} page=${adj.page_size}` : 'null'} label="${label.label}"`)
-
-		if (fields.length === 0) return 0
-		if (!adj) return 0
-		if (adj.page_size <= 0) return 0
-
+		if (!adj || fields.length === 0 || adj.page_size <= 0) return ""
 
 		switch (phase) {
 			case Phase.SCROLLING: {
 				const maxScroll = adj.upper - adj.page_size
 				if (maxScroll <= 0) {
-					// Text fits — skip straight to hold
 					phase = Phase.HOLDING
 					counter = 0
 				} else {
@@ -89,8 +80,7 @@ export default function Spotify() {
 				}
 				break
 		}
-		} catch(e) { console.error(`[spotify] timer error: ${e}`) }
-		return true
+		return ""
 	})
 
 	const reset = (i: number) => {
@@ -140,6 +130,9 @@ export default function Spotify() {
 			visible={isVisible}
 			halign={Gtk.Align.CENTER}
 			onRealize={(self: Gtk.Box) => self.append(sw)}
-		/>
+		>
+			{/* hidden label reads _tick, activating the createPoll timer */}
+			<label visible={false} label={_tick} />
+		</box>
 	)
 }
