@@ -18,7 +18,7 @@ export default function Cpu() {
 	const _tick = createPoll("", 2000, () => { setVal(`${readCpu()}%`); return "" })
 
 	return (
-		<box class="cpu-container" orientation={0}>
+		<box class="cpu-container">
 			<label visible={false} label={_tick} />
 			<label class="sysinfo-icon" label="󰍛 " />
 			<label class="sysinfo-value" label={val} widthChars={4} xalign={0} />
