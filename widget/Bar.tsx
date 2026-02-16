@@ -78,7 +78,7 @@ function Spotify() {
 	const [title, setTitle] = createState("")
 	const [artist, setArtist] = createState("")
 	const [album, setAlbum] = createState("")
-	const [playIcon, setPlayIcon] = createState("\u{F0060A}")
+	const [playIcon, setPlayIcon] = createState("\uF04B")
 
 	let marqueeOffset = 0
 	let prevRaw = ""
@@ -110,10 +110,10 @@ function Spotify() {
 
 		const st = spotify.playback_status
 		if (st === Mpris.PlaybackStatus.PLAYING) {
-			setPlayIcon("\u{F03E4}")  // pause icon
+			setPlayIcon("\uF04C")  // pause icon
 			setRawText(spotify.artist ? `${spotify.artist} \u2013 ${spotify.title}` : spotify.title)
 		} else {
-			setPlayIcon("\u{F0060A}")  // play icon
+			setPlayIcon("\uF04B")  // play icon
 			setRawText("Paused")
 		}
 	}
@@ -144,13 +144,13 @@ function Spotify() {
 				<label class="spotify-album" label={album} xalign={0} />
 				<box class="spotify-controls" spacing={8} halign={Gtk.Align.CENTER}>
 					<button class="media-btn" onClicked={() => spotify.previous()}>
-						<label label="\u{F0D30E}" />
+						<label label="\uF04A" />
 					</button>
 					<button class="media-btn" onClicked={() => spotify.play_pause()}>
 						<label label={playIcon} />
 					</button>
 					<button class="media-btn" onClicked={() => spotify.next()}>
-						<label label="\u{F0D30D}" />
+						<label label="\uF04E" />
 					</button>
 				</box>
 			</box>
