@@ -23,6 +23,7 @@ export default function Spotify() {
 
 	const sw = new Gtk.ScrolledWindow()
 	sw.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.NEVER)
+	sw.hexpand = true
 	sw.set_child(label)
 
 	let containerBox: Gtk.Box | null = null
