@@ -1,0 +1,42 @@
+@use '../../../styles/variables' as *;
+
+window.Bar {
+  .workspaces-container {
+    background-color: $container-bg;
+    border: $border-width solid $container-border;
+    margin: $margin;
+    padding: $padding;
+    border-radius: 0px;
+  }
+
+  .workspaces {
+    padding: $workspace-spacing;
+  }
+
+  button.workspace {
+    min-width: $workspace-size;
+    min-height: $workspace-size;
+    padding: 0;
+    margin: 0;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    background-image: none;
+    border: none;
+    font-size: 2px;
+  }
+
+  button.workspace.empty {
+    background-color: $workspace-empty;
+    color: $bg-transparent;
+  }
+
+  button.workspace.occupied {
+    background-color: $workspace-occupied;
+    color: $bg-transparent;
+  }
+
+  button.workspace.active {
+    border-radius: 12px;
+    min-width: $workspace-pill-width;
+  }
+}
