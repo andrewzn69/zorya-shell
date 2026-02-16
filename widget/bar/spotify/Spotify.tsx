@@ -7,6 +7,7 @@ const FRAME_MS = 16
 const SCROLL_SPEED = 0.5
 const HOLD_FRAMES_TITLE = 1875   // ~30s
 const HOLD_FRAMES_META = 312     // ~5s
+const HOLD_FRAMES_AFTER_SCROLL = 90  // ~1.5s
 const FADE_FRAMES = 45           // ~720ms
 
 const enum Phase { SCROLLING, HOLDING, FADE_OUT, FADE_IN }
@@ -48,9 +49,9 @@ export default function Spotify() {
 					if (pixelOffset >= maxScroll) {
 						pixelOffset = maxScroll
 						adj.value = pixelOffset
-						label.css_classes = ['spotify-track', 'faded']
-						phase = Phase.FADE_OUT
-						counter = 0
+						phase = Phase.HOLDING
+						const holdFrames = idx === 0 ? HOLD_FRAMES_TITLE : HOLD_FRAMES_META
+						counter = holdFrames - HOLD_FRAMES_AFTER_SCROLL
 					} else {
 						adj.value = pixelOffset
 					}
