@@ -41,6 +41,10 @@ export default function Spotify() {
 		// Wait for widget to be realized and laid out
 		if (adj.page_size <= 0) return 0
 
+		// TODO: remove debug
+		if (counter === 0 && phase === Phase.SCROLLING) console.log(`[spotify] upper=${adj.upper} page=${adj.page_size} max=${adj.upper - adj.page_size} label="${label.label}"`)
+
+
 		switch (phase) {
 			case Phase.SCROLLING: {
 				const maxScroll = adj.upper - adj.page_size
