@@ -17,8 +17,8 @@ window.Bar {
     &.playing {
       min-width: 150px;
       max-width: 150px;
-      transition: min-width 0.5s cubic-bezier(0.1, 1.1, 0.1, 1),
-                  max-width 0.5s cubic-bezier(0.1, 1.1, 0.1, 1);
+      transition: min-width 0.5s cubic-bezier(0.1, 1.0, 0.1, 1),
+                  max-width 0.5s cubic-bezier(0.1, 1.0, 0.1, 1);
     }
   }
 
