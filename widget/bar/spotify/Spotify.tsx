@@ -15,7 +15,7 @@ export default function Spotify() {
 	const [isVisible, setIsVisible] = createState(false)
 	const [trackText, setTrackText] = createState("")
 
-	let scrollWin: Gtk.ScrolledWindow | null = null
+	let viewport: Gtk.Viewport | null = null
 	let labelWidget: Gtk.Label | null = null
 	let pixelOffset = 0
 	let state = ScrollState.SCROLLING
@@ -23,7 +23,7 @@ export default function Spotify() {
 	let prevText = ""
 
 	createPoll(0, FRAME_MS, () => {
-		if (!scrollWin || !labelWidget) return 0
+		if (!viewport || !labelWidget) return 0
 
 		const text = trackText()
 		if (text !== prevText) {
@@ -32,17 +32,15 @@ export default function Spotify() {
 			state = ScrollState.SCROLLING
 			stateCounter = 0
 			labelWidget.opacity = 1
-			const adj = scrollWin.get_hadjustment()
-			if (adj) adj.value = 0
+			viewport.get_hadjustment().value = 0
 			return 0
 		}
 
-		const adj = scrollWin.get_hadjustment()
-		if (!adj) return 0
+		const adj = viewport.get_hadjustment()
 		const maxScroll = adj.upper - adj.page_size
-
 		// TODO: remove debug
-		if (pixelOffset === 0) console.log(`spotify scroll: maxScroll=${maxScroll} upper=${adj.upper} page=${adj.page_size}`)
+		if (pixelOffset === 0) console.log(`spotify scroll: upper=${adj.upper} page=${adj.page_size} max=${maxScroll}`)
+
 		if (maxScroll <= 0) {
 			adj.value = 0
 			pixelOffset = 0
@@ -108,13 +106,10 @@ export default function Spotify() {
 
 	return (
 		<box class="spotify-container" visible={isVisible}>
-			<scrolledwindow
-				onRealize={(self: Gtk.ScrolledWindow) => {
-					scrollWin = self
-					self.hscrollbar_policy = Gtk.PolicyType.ALWAYS
-					self.vscrollbar_policy = Gtk.PolicyType.NEVER
-					self.min_content_width = 280
-					self.max_content_width = 280
+			<viewport
+				onRealize={(self: Gtk.Viewport) => {
+					viewport = self
+					self.set_size_request(280, -1)
 				}}
 			>
 				<label
@@ -125,7 +120,7 @@ export default function Spotify() {
 						self.single_line_mode = true
 					}}
 				/>
-			</scrolledwindow>
+			</viewport>
 		</box>
 	)
 }

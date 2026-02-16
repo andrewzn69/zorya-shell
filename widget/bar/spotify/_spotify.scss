@@ -10,14 +10,7 @@ window.Bar {
     color: $text-color;
   }
 
-  .spotify-container scrolledwindow scrollbar {
-    opacity: 0;
-    min-height: 0;
-    min-width: 0;
-    padding: 0;
-  }
-
-  .spotify-track {
+.spotify-track {
     font-weight: bold;
     transition: opacity 0.4s ease;
   }
