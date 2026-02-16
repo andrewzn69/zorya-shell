@@ -1,0 +1,17 @@
+@use '../../../styles/variables' as *;
+
+window.Bar {
+  .spotify-container {
+    background-color: $container-bg;
+    border: $border-width solid $container-border;
+    margin: $margin;
+    padding: $padding $padding-large;
+    border-radius: 0px;
+    color: $text-color;
+    min-width: 280px;
+  }
+
+  .spotify-track {
+    font-weight: bold;
+  }
+}
