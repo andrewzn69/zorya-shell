@@ -8,6 +8,9 @@ window.Bar {
     padding: $padding $padding-large;
     border-radius: 0px;
     color: $text-color;
+  }
+
+  .spotify-viewport {
     min-width: 280px;
     max-width: 280px;
   }
