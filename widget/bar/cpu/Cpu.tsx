@@ -21,7 +21,7 @@ export default function Cpu() {
 		<box class="cpu-container">
 			<label visible={false} label={_tick} />
 			<label class="sysinfo-icon" label="󰍛 " />
-			<label class="sysinfo-value" label={val} widthChars={4} xalign={1} />
+			<label class="sysinfo-value" label={val} widthChars={4} xalign={0} />
 		</box>
 	)
 }
