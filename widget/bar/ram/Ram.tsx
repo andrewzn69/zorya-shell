@@ -16,7 +16,7 @@ export default function Ram() {
 	return (
 		<box class="ram-container">
 			<label visible={false} label={_tick} />
-			<label class="sysinfo-icon" label=" " />
+			<label class="sysinfo-icon" label=" \u2009" />
 			<label class="sysinfo-value" label={val} />
 		</box>
 	)
