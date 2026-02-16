@@ -2,6 +2,8 @@ import barConfig from "../config.json"
 import app from "ags/gtk4/app"
 import { Astal, Gdk } from "ags/gtk4"
 import Hyprland from "gi://AstalHyprland"
+import Mpris from "gi://AstalMpris"
+import Gtk from "gi://Gtk?version=4.0"
 import { createPoll } from "ags/time"
 import { createState } from "ags"
 
@@ -65,9 +67,93 @@ function Workspaces({ monitorConnector }: { monitorConnector: string }) {
 }
 
 function Spotify() {
+	const spotify = Mpris.Player.new("spotify")
+
+	const MARQUEE_LEN = 35
+	const MARQUEE_SPEED = 150
+
+	const [isVisible, setIsVisible] = createState(false)
+	const [isExpanded, setIsExpanded] = createState(false)
+	const [rawText, setRawText] = createState("")
+	const [title, setTitle] = createState("")
+	const [artist, setArtist] = createState("")
+	const [album, setAlbum] = createState("")
+	const [playIcon, setPlayIcon] = createState("\u{F0060A}")
+
+	let marqueeOffset = 0
+	let prevRaw = ""
+
+	// drives the collapsed label — scrolls when rawText exceeds MARQUEE_LEN chars
+	const displayText = createPoll("", MARQUEE_SPEED, () => {
+		const text = rawText()
+		if (text !== prevRaw) {
+			marqueeOffset = 0
+			prevRaw = text
+		}
+		if (text.length <= MARQUEE_LEN) return text
+		const padded = text + "   "
+		const doubled = padded + padded
+		const start = marqueeOffset % padded.length
+		marqueeOffset++
+		return doubled.slice(start, start + MARQUEE_LEN)
+	})
+
+	const update = () => {
+		if (!spotify.available) {
+			setIsVisible(false)
+			return
+		}
+		setIsVisible(true)
+		setTitle(spotify.title || "")
+		setArtist(spotify.artist || "")
+		setAlbum(spotify.album || "")
+
+		const st = spotify.playback_status
+		if (st === Mpris.PlaybackStatus.PLAYING) {
+			setPlayIcon("\u{F03E4}")  // pause icon
+			setRawText(spotify.artist ? `${spotify.artist} \u2013 ${spotify.title}` : spotify.title)
+		} else {
+			setPlayIcon("\u{F0060A}")  // play icon
+			setRawText("Paused")
+		}
+	}
+
+	update()
+	spotify.connect("notify::title", update)
+	spotify.connect("notify::artist", update)
+	spotify.connect("notify::album", update)
+	spotify.connect("notify::playback-status", update)
+	spotify.connect("notify::available", update)
+
 	return (
-		<box class="spotify-container">
-			<label label=" Everything You Want" />
+		<box
+			class="spotify-container"
+			vertical
+			visible={isVisible}
+			onRealize={(self: Gtk.Widget) => {
+				const ctrl = new Gtk.EventControllerMotion()
+				ctrl.connect("enter", () => setIsExpanded(true))
+				ctrl.connect("leave", () => setIsExpanded(false))
+				self.add_controller(ctrl)
+			}}
+		>
+			<label class="spotify-track" label={displayText} />
+			<box class="spotify-details" vertical visible={isExpanded} spacing={2}>
+				<label class="spotify-title" label={title} xalign={0} />
+				<label class="spotify-artist" label={artist} xalign={0} />
+				<label class="spotify-album" label={album} xalign={0} />
+				<box class="spotify-controls" spacing={8} halign={Gtk.Align.CENTER}>
+					<button class="media-btn" onClicked={() => spotify.previous()}>
+						<label label="\u{F0D30E}" />
+					</button>
+					<button class="media-btn" onClicked={() => spotify.play_pause()}>
+						<label label={playIcon} />
+					</button>
+					<button class="media-btn" onClicked={() => spotify.next()}>
+						<label label="\u{F0D30D}" />
+					</button>
+				</box>
+			</box>
 		</box>
 	)
 }
