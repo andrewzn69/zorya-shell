@@ -4,10 +4,10 @@ import { createPoll } from "ags/time"
 import { createState } from "ags"
 
 const FRAME_MS = 16
-const SCROLL_SPEED = 1
+const SCROLL_SPEED = 0.5
 const HOLD_FRAMES_TITLE = 1875   // ~30s
 const HOLD_FRAMES_META = 312     // ~5s
-const FADE_FRAMES = 15           // ~240ms
+const FADE_FRAMES = 45           // ~720ms
 
 const enum Phase { SCROLLING, HOLDING, FADE_OUT, FADE_IN }
 
@@ -48,7 +48,8 @@ export default function Spotify() {
 					if (pixelOffset >= maxScroll) {
 						pixelOffset = maxScroll
 						adj.value = pixelOffset
-						phase = Phase.HOLDING
+						label.css_classes = ['spotify-track', 'faded']
+						phase = Phase.FADE_OUT
 						counter = 0
 					} else {
 						adj.value = pixelOffset
