@@ -1,6 +1,6 @@
 import Mpris from "gi://AstalMpris"
 import Gtk from "gi://Gtk?version=4.0"
-import { createPoll } from "ags/time"
+import GLib from "gi://GLib"
 import { createState } from "ags"
 
 const FRAME_MS = 16
@@ -33,7 +33,7 @@ export default function Spotify() {
 	let pixelOffset = 0
 	let counter = 0
 
-	createPoll(0, FRAME_MS, () => {
+	GLib.timeout_add(GLib.PRIORITY_DEFAULT, FRAME_MS, () => {
 		// TODO: remove debug
 		const adj = sw.get_hadjustment()
 		console.log(`[spotify] fields=${fields.length} adj=${adj ? `upper=${adj.upper} page=${adj.page_size}` : 'null'} label="${label.label}"`)
@@ -88,7 +88,7 @@ export default function Spotify() {
 				}
 				break
 		}
-		return 0
+		return GLib.SOURCE_CONTINUE
 	})
 
 	const reset = (i: number) => {
