@@ -152,14 +152,10 @@ export default function Spotify() {
 	}
 
 	const setPlaying = (playing: boolean) => {
-		if (playing) {
-			sw.set_min_content_width(150)
-			sw.set_max_content_width(150)
-			if (containerBox) containerBox.css_classes = ['spotify-container', 'playing']
-		} else {
-			sw.set_min_content_width(-1)
-			sw.set_max_content_width(-1)
-			if (containerBox) containerBox.css_classes = ['spotify-container']
+		if (containerBox) {
+			containerBox.css_classes = playing
+				? ['spotify-container', 'playing']
+				: ['spotify-container']
 		}
 	}
 
