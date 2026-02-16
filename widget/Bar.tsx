@@ -67,7 +67,7 @@ function Workspaces({ monitorConnector }: { monitorConnector: string }) {
 function Spotify() {
 	return (
 		<box class="spotify-container">
-			<label label=" Paused" />
+			<label label=" Everything You Want" />
 		</box>
 	)
 }
