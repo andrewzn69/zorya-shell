@@ -63,6 +63,7 @@ export default function Spotify() {
 					// Title: bounce back and forth until 30s elapsed
 					titleTimer++
 					if (titleTimer >= HOLD_FRAMES_TITLE) {
+						if (fields.length <= 1) { titleTimer = 0; break }
 						label.css_classes = ['spotify-track', 'faded']
 						phase = Phase.FADE_OUT
 						counter = 0
@@ -107,6 +108,7 @@ export default function Spotify() {
 			case Phase.HOLDING: {
 				const holdFrames = idx === 0 ? HOLD_FRAMES_TITLE : HOLD_FRAMES_META
 				if (++counter >= holdFrames) {
+					if (fields.length <= 1) { counter = 0; break }
 					label.css_classes = ['spotify-track', 'faded']
 					phase = Phase.FADE_OUT
 					counter = 0
