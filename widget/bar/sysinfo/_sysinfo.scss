@@ -1,0 +1,20 @@
+@use '../../../styles/variables' as *;
+
+window.Bar {
+  .sysinfo-container {
+    background-color: $container-bg;
+    border: $border-width solid $container-border;
+    margin: $margin;
+    padding: $padding $padding-large;
+    color: $text-color;
+  }
+
+  .sysinfo-item label {
+    color: $text-color;
+  }
+
+  .sysinfo-value {
+    color: $text-active;
+    font-weight: bold;
+  }
+}

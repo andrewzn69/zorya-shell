@@ -5,6 +5,7 @@ import Hyprland from "gi://AstalHyprland"
 import Workspaces from "./bar/workspaces/Workspaces"
 import Spotify from "./bar/spotify/Spotify"
 import Clock from "./bar/clock/Clock"
+import SysInfo from "./bar/sysinfo/SysInfo"
 
 const hyprland = Hyprland.get_default()
 
@@ -57,7 +58,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 						<Workspaces monitorConnector={monitorConnector} />
 					</box>
 					<box $type="center">
-						<label label="TODO: System info" />
+						<SysInfo />
 					</box>
 					<box $type="end">
 						<Clock />

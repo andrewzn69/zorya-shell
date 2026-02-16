@@ -2,6 +2,7 @@
 @use 'widget/bar/workspaces/workspaces';
 @use 'widget/bar/spotify/spotify';
 @use 'widget/bar/clock/clock';
+@use 'widget/bar/sysinfo/sysinfo';
 
 window.Bar {
   background-color: $bg-transparent;
