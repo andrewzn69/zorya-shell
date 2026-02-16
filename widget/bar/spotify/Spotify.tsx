@@ -21,7 +21,7 @@ export default function Spotify() {
 	// ScrolledWindow reports natural width via max_content_width,
 	// unlike Gtk.Viewport which propagates the child's full natural size.
 	const sw = new Gtk.ScrolledWindow()
-	sw.set_policy(Gtk.PolicyType.EXTERNAL, Gtk.PolicyType.NEVER)
+	sw.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.NEVER)
 	sw.set_min_content_width(280)
 	sw.set_max_content_width(280)
 	sw.set_child(label)

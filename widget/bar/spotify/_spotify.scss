@@ -11,8 +11,14 @@ window.Bar {
   }
 
 
-.spotify-track {
+  .spotify-track {
     font-weight: bold;
     transition: opacity 0.4s ease;
+  }
+
+  .spotify-container scrollbar {
+    opacity: 0;
+    min-width: 0;
+    min-height: 0;
   }
 }
