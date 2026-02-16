@@ -33,15 +33,12 @@ export default function Spotify() {
 	let counter = 0
 
 	createPoll(0, FRAME_MS, () => {
-		if (fields.length === 0) return 0
-
-		const adj = sw.get_hadjustment()
-		if (!adj) return 0
-
 		// TODO: remove debug
-		if (counter === 0) console.log(`[spotify] upper=${adj.upper} page=${adj.page_size} label="${label.label}"`)
+		const adj = sw.get_hadjustment()
+		console.log(`[spotify] fields=${fields.length} adj=${adj ? `upper=${adj.upper} page=${adj.page_size}` : 'null'} label="${label.label}"`)
 
-		// Wait for widget to be realized and laid out
+		if (fields.length === 0) return 0
+		if (!adj) return 0
 		if (adj.page_size <= 0) return 0
 
 
