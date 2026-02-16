@@ -27,6 +27,7 @@ export default function Spotify() {
 	sw.set_max_content_width(150)
 	sw.set_child(label)
 
+	let containerBox: Gtk.Box | null = null
 	let fields: string[] = []
 	let idx = 0
 	let phase = Phase.SCROLLING
@@ -149,6 +150,18 @@ export default function Spotify() {
 		if (adj) adj.value = 0
 	}
 
+	const setPlaying = (playing: boolean) => {
+		if (playing) {
+			sw.set_min_content_width(150)
+			sw.set_max_content_width(150)
+			if (containerBox) containerBox.css_classes = ['spotify-container', 'playing']
+		} else {
+			sw.set_min_content_width(-1)
+			sw.set_max_content_width(-1)
+			if (containerBox) containerBox.css_classes = ['spotify-container']
+		}
+	}
+
 	const update = () => {
 		if (!spotify.available) {
 			setIsVisible(false)
@@ -165,9 +178,11 @@ export default function Spotify() {
 
 			const titleChanged = newFields[0] !== fields[0]
 			fields = newFields
+			setPlaying(true)
 			if (titleChanged) reset(0)
 		} else {
 			fields = ["Paused"]
+			setPlaying(false)
 			reset(0)
 		}
 	}
@@ -184,7 +199,7 @@ export default function Spotify() {
 			class="spotify-container"
 			visible={isVisible}
 			halign={Gtk.Align.CENTER}
-			onRealize={(self: Gtk.Box) => self.append(sw)}
+			onRealize={(self: Gtk.Box) => { containerBox = self; self.append(sw) }}
 		>
 			{/* hidden label reads _tick, activating the createPoll timer */}
 			<label visible={false} label={_tick} />
