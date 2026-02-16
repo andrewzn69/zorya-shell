@@ -17,15 +17,15 @@ function readNet(): { rx: number, tx: number } {
 
 function fmtBytes(b: number): string {
 	if (b > 1048576) return `${(b / 1048576).toFixed(1)}M`
-	if (b > 1024)    return `${(b / 1024).toFixed(0)}K`
+	if (b > 1024) return `${(b / 1024).toFixed(0)}K`
 	return `${b}B`
 }
 
 export default function Network() {
-	const [val, setVal] = createState("󰇙 0K  󰇚 0K")
+	const [val, setVal] = createState("󰕒 0K  󰇚 0K")
 	const _tick = createPoll("", 2000, () => {
 		const n = readNet()
-		setVal(`󰇙 ${fmtBytes(n.tx)}  󰇚 ${fmtBytes(n.rx)}`)
+		setVal(`󰕒 ${fmtBytes(n.tx)}  󰇚 ${fmtBytes(n.rx)}`)
 		return ""
 	})
 

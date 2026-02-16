@@ -20,7 +20,7 @@ export default function Cpu() {
 	return (
 		<box class="cpu-container">
 			<label visible={false} label={_tick} />
-			<label class="sysinfo-icon" label="󰻠 " />
+			<label class="sysinfo-icon" label="󰍛 " />
 			<label class="sysinfo-value" label={val} />
 		</box>
 	)
