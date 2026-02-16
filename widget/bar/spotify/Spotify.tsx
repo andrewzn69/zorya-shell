@@ -20,7 +20,7 @@ export default function Spotify() {
 	label.single_line_mode = true
 
 	const vp = new Gtk.Viewport()
-	vp.set_size_request(280, -1)
+	vp.hexpand = true
 	vp.set_child(label)
 
 	let pixelOffset = 0
