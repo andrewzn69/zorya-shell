@@ -23,8 +23,8 @@ export default function Spotify() {
 
 	const sw = new Gtk.ScrolledWindow()
 	sw.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.NEVER)
-	sw.set_min_content_width(120)
-	sw.set_max_content_width(120)
+	sw.set_min_content_width(150)
+	sw.set_max_content_width(150)
 	sw.set_child(label)
 
 	let fields: string[] = []
