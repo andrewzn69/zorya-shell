@@ -7,7 +7,8 @@ const FRAME_MS = 16
 const SCROLL_SPEED = 0.5
 const HOLD_FRAMES_TITLE = 1875   // ~30s
 const HOLD_FRAMES_META = 312     // ~5s
-const HOLD_FRAMES_AFTER_SCROLL = 90  // ~1.5s
+const HOLD_FRAMES_AFTER_SCROLL = 90   // ~1.5s
+const HOLD_FRAMES_BEFORE_SCROLL = 90  // ~1.5s
 const FADE_FRAMES = 45           // ~720ms
 
 const enum Phase { SCROLLING, HOLDING, FADE_OUT, FADE_IN }
@@ -22,8 +23,8 @@ export default function Spotify() {
 
 	const sw = new Gtk.ScrolledWindow()
 	sw.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.NEVER)
-	sw.set_min_content_width(280)
-	sw.set_max_content_width(280)
+	sw.set_min_content_width(120)
+	sw.set_max_content_width(120)
 	sw.set_child(label)
 
 	let fields: string[] = []
@@ -40,6 +41,10 @@ export default function Spotify() {
 
 		switch (phase) {
 			case Phase.SCROLLING: {
+				if (counter < HOLD_FRAMES_BEFORE_SCROLL) {
+					counter++
+					break
+				}
 				const maxScroll = adj.upper - adj.page_size
 				if (maxScroll <= 0) {
 					phase = Phase.HOLDING
