@@ -41,13 +41,13 @@ export default function Spotify() {
 		if (!adj) return 0
 		const maxScroll = adj.upper - adj.page_size
 
+		// TODO: remove debug
+		if (pixelOffset === 0) console.log(`spotify scroll: maxScroll=${maxScroll} upper=${adj.upper} page=${adj.page_size}`)
 		if (maxScroll <= 0) {
 			adj.value = 0
 			pixelOffset = 0
 			return 0
 		}
-		// TODO: remove debug
-		if (pixelOffset === 0) console.log(`spotify scroll: maxScroll=${maxScroll} upper=${adj.upper} page=${adj.page_size}`)
 
 		switch (state) {
 			case ScrollState.SCROLLING:
@@ -111,7 +111,7 @@ export default function Spotify() {
 			<scrolledwindow
 				onRealize={(self: Gtk.ScrolledWindow) => {
 					scrollWin = self
-					self.hscrollbar_policy = Gtk.PolicyType.AUTOMATIC
+					self.hscrollbar_policy = Gtk.PolicyType.ALWAYS
 					self.vscrollbar_policy = Gtk.PolicyType.NEVER
 					self.min_content_width = 280
 					self.max_content_width = 280
