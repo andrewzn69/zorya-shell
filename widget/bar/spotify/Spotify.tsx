@@ -117,6 +117,7 @@ export default function Spotify() {
 			case Phase.FADE_OUT:
 				if (++counter >= FADE_FRAMES) {
 					if (fields.length > 1) idx = (idx + 1) % fields.length
+					if (idx === 0) { titleTimer = 0; scrollDir = 1; scrollWait = 0; bounceCount = 0 }
 					label.label = fields[idx] ?? ""
 					pixelOffset = 0
 					adj.value = 0
