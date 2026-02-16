@@ -88,7 +88,7 @@ export default function Spotify() {
 				}
 				break
 		}
-		return GLib.SOURCE_CONTINUE
+		return true
 	})
 
 	const reset = (i: number) => {
