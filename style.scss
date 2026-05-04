@@ -6,6 +6,7 @@
 @use 'widget/bar/ram/ram';
 @use 'widget/bar/disk/disk';
 @use 'widget/bar/network/network';
+@use 'styles/notifications';
 
 window.Bar {
   background-color: $bg-transparent;

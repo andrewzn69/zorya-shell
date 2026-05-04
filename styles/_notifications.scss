@@ -1,0 +1,59 @@
+@use 'variables' as *;
+
+.Notifications {
+  background-color: transparent;
+}
+
+.notif-popup {
+  background-color: $container-bg;
+  border: $border-width solid $accent;
+  margin: $margin;
+  min-width: $notif-width;
+}
+
+.notif-image {
+}
+
+.notif-icon {
+  padding: $padding;
+}
+
+.notif-content {
+  padding: $padding;
+}
+
+.notif-header {
+  margin-bottom: $workspace-spacing;
+}
+
+.notif-app {
+  color: $notif-color-app;
+  font-size: $notif-font-size-app;
+  font-weight: bold;
+}
+
+.notif-summary {
+  color: $notif-color-summary;
+  font-weight: bold;
+  font-size: $notif-font-size-large;
+}
+
+.notif-body {
+  color: $notif-color-body;
+  font-size: $notif-font-size-small;
+}
+
+.notif-progress {
+  trough, trough progress {
+    min-height: $notif-progress-height;
+    border-radius: 0;
+  }
+
+  trough {
+    background-color: $container-bg;
+  }
+
+  trough progress {
+    background-color: $container-border;
+  }
+}
