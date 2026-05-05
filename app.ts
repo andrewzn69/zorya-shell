@@ -1,13 +1,19 @@
 import app from "ags/gtk4/app"
-import style from "./style.scss"
-import Bar from "./widget/Bar"
-import Notifications, { NOTIF_MONITOR } from "./widget/notifications/Notifications"
+import Bar from "@widget/Bar"
+import Notifications from "@widget/Notifications"
+import { config } from "@lib/config"
+import { loadStyle } from "@lib/style"
 
 app.start({
-  css: style,
-  main() {
-    app.get_monitors().map(Bar)
-    const monitors = app.get_monitors()
-    Notifications(monitors[Math.min(NOTIF_MONITOR, monitors.length - 1)])
-  },
+	css: loadStyle(config),
+	main() {
+		const monitors = app.get_monitors()
+		if (config.bar.enabled) monitors.forEach(Bar)
+		if (config.notifications.enabled) {
+			const connector = config.notifications.monitor
+			const monitor = monitors.find(m => m.get_connector() === connector)
+			if (!monitor) console.warn(`monitor "${connector}" not found, falling back to primary`)
+			Notifications(monitor ?? monitors[0])
+		}
+	},
 })

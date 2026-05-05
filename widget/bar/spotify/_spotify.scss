@@ -1,24 +1,19 @@
-@use '../../../styles/variables' as *;
-
 window.Bar {
   .spotify-container {
-    background-color: $container-bg;
-    border: $border-width solid $container-border;
-    margin: $margin;
-    padding: $padding $padding-large;
+    background-color: $bar-bg;
+    border: $bar-border-width solid $bar-border;
+    margin: $bar-margin;
+    padding: $bar-padding $bar-padding-large;
     border-radius: 0px;
-    color: $text-color;
-    overflow: hidden;
+    color: $bar-text;
+    font-family: $bar-font-family;
+    font-size: $bar-font-size;
     min-width: 90px;
-    max-width: 90px;
-    transition: min-width 0.4s cubic-bezier(0.1, -0.1, 0.1, 1),
-                max-width 0.4s cubic-bezier(0.1, -0.1, 0.1, 1);
+    transition: min-width 0.4s cubic-bezier(0.1, -0.1, 0.1, 1);
 
     &.playing {
       min-width: 150px;
-      max-width: 150px;
-      transition: min-width 0.5s cubic-bezier(0.1, 1.0, 0.1, 1),
-                  max-width 0.5s cubic-bezier(0.1, 1.0, 0.1, 1);
+      transition: min-width 0.5s cubic-bezier(0.1, 1.0, 0.1, 1);
     }
   }
 

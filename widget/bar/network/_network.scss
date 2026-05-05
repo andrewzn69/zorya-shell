@@ -1,5 +1,3 @@
-@use '../../../styles/sysinfo-common' as *;
-
 window.Bar {
   .network-container { @include sysinfo-box; }
 }

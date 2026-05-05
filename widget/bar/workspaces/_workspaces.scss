@@ -1,21 +1,19 @@
-@use '../../../styles/variables' as *;
-
 window.Bar {
   .workspaces-container {
-    background-color: $container-bg;
-    border: $border-width solid $container-border;
-    margin: $margin;
-    padding: $padding;
+    background-color: $bar-bg;
+    border: $bar-border-width solid $bar-border;
+    margin: $bar-margin;
+    padding: $bar-padding;
     border-radius: 0px;
   }
 
   .workspaces {
-    padding: $workspace-spacing;
+    padding: $bar-workspace-spacing;
   }
 
   button.workspace {
-    min-width: $workspace-size;
-    min-height: $workspace-size;
+    min-width: $bar-workspace-size;
+    min-height: $bar-workspace-size;
     padding: 0;
     margin: 0;
     border-radius: 50%;
@@ -26,17 +24,17 @@ window.Bar {
   }
 
   button.workspace.empty {
-    background-color: $workspace-empty;
-    color: $bg-transparent;
+    background-color: $bar-workspace-empty;
+    color: transparent;
   }
 
   button.workspace.occupied {
-    background-color: $workspace-occupied;
-    color: $bg-transparent;
+    background-color: $bar-workspace-occupied;
+    color: transparent;
   }
 
   button.workspace.active {
     border-radius: 12px;
-    min-width: $workspace-pill-width;
+    min-width: $bar-workspace-pill-width;
   }
 }

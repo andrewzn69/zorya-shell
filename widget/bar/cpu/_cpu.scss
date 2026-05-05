@@ -1,5 +1,3 @@
-@use '../../../styles/sysinfo-common' as *;
-
 window.Bar {
   .cpu-container { @include sysinfo-box; }
 }

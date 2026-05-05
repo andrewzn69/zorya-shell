@@ -1,8 +1,87 @@
 {
-	"monitors": {
-		"0": "secondary",
-		"1": "primary",
-		"2": "tertiary"
+	"version": 1,
+	"bar": {
+		"enabled": true,
+		"layouts": {
+			"*": {
+				"left": [],
+				"center": [
+					"workspaces"
+				],
+				"right": []
+			},
+			"HDMI-A-1": {
+				"left": [
+					"workspaces"
+				],
+				"center": [
+					"spotify"
+				],
+				"right": [
+					"clock"
+				]
+			},
+			"DP-3": {
+				"left": [
+					"workspaces"
+				],
+				"center": [
+					"cpu",
+					"ram",
+					"disk",
+					"network"
+				],
+				"right": [
+					"clock"
+				]
+			}
+		},
+		"colors": {
+			"background": "#1D2022",
+			"border": "#3C3C3C",
+			"text": "#AD685A",
+			"workspace_empty": "#3C3C3C",
+			"workspace_occupied": "#AD685A"
+		},
+		"fonts": {
+			"size": 14,
+			"family": "Cantarell"
+		},
+		"spacing": {
+			"margin": 10,
+			"padding": 8,
+			"padding_large": 16,
+			"border_width": 2,
+			"workspace_spacing": 4,
+			"workspace_size": 14,
+			"workspace_pill_width": 36
+		}
 	},
-	"debug": true
+	"notifications": {
+		"enabled": true,
+		"monitor": "DP-3",
+		"corner": "top-right",
+		"duration": 5000,
+		"width": 240,
+		"image_size": 64,
+		"max_chars": 30,
+		"colors": {
+			"background": "#1D2022",
+			"border": "#6A3837",
+			"app": "#98971A",
+			"summary": "#458588",
+			"body": "#EBDBB2",
+			"progress": "#3C3C3C"
+		},
+		"fonts": {
+			"size_app": 10,
+			"size_summary": 14,
+			"size_body": 12
+		},
+		"spacing": {
+			"margin": 10,
+			"padding": 8,
+			"border_width": 2
+		}
+	}
 }

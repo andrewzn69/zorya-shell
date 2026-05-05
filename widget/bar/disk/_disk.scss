@@ -1,5 +1,3 @@
-@use '../../../styles/sysinfo-common' as *;
-
 window.Bar {
   .disk-container { @include sysinfo-box; }
 }

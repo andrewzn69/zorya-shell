@@ -1,18 +1,18 @@
-@use 'variables' as *;
-
 @mixin sysinfo-box {
-  background-color: $container-bg;
-  border: $border-width solid $container-border;
-  margin: $margin;
-  padding: $padding $padding-large;
-  color: $text-color;
+  background-color: $bar-bg;
+  border: $bar-border-width solid $bar-border;
+  margin: $bar-margin;
+  padding: $bar-padding $bar-padding-large;
+  color: $bar-text;
+  font-family: $bar-font-family;
+  font-size: $bar-font-size;
 }
 
 .sysinfo-icon {
-  color: $text-color;
+  color: $bar-text;
 }
 
 .sysinfo-value {
-  color: $text-color;
+  color: $bar-text;
   font-weight: bold;
 }

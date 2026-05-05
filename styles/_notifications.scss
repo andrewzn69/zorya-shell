@@ -1,29 +1,26 @@
-@use 'variables' as *;
+$notif-progress-height: 3px;
 
 .Notifications {
   background-color: transparent;
 }
 
 .notif-popup {
-  background-color: $container-bg;
-  border: $border-width solid $accent;
-  margin: $margin;
+  background-color: $notif-bg;
+  border: $notif-border-width solid $notif-border;
+  margin: $notif-margin;
   min-width: $notif-width;
 }
 
-.notif-image {
-}
-
 .notif-icon {
-  padding: $padding;
+  padding: $notif-padding;
 }
 
 .notif-content {
-  padding: $padding;
+  padding: $notif-padding;
 }
 
 .notif-header {
-  margin-bottom: $workspace-spacing;
+  margin-bottom: $notif-padding;
 }
 
 .notif-app {
@@ -35,12 +32,12 @@
 .notif-summary {
   color: $notif-color-summary;
   font-weight: bold;
-  font-size: $notif-font-size-large;
+  font-size: $notif-font-size-summary;
 }
 
 .notif-body {
   color: $notif-color-body;
-  font-size: $notif-font-size-small;
+  font-size: $notif-font-size-body;
 }
 
 .notif-progress {
@@ -50,10 +47,10 @@
   }
 
   trough {
-    background-color: $container-bg;
+    background-color: $notif-bg;
   }
 
   trough progress {
-    background-color: $container-border;
+    background-color: $notif-color-progress;
   }
 }

@@ -1,13 +1,13 @@
-@use '../../../styles/variables' as *;
-
 window.Bar {
   .clock-container {
-    background-color: $container-bg;
-    border: $border-width solid $container-border;
-    margin: $margin;
-    padding: $padding $padding-large;
+    background-color: $bar-bg;
+    border: $bar-border-width solid $bar-border;
+    margin: $bar-margin;
+    padding: $bar-padding $bar-padding-large;
     border-radius: 0px;
-    color: $text-color;
+    color: $bar-text;
+    font-family: $bar-font-family;
+    font-size: $bar-font-size;
     font-weight: bold;
   }
 }
