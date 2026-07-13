@@ -16,10 +16,10 @@
 
   outputs =
     {
+      self,
       nixpkgs,
       ags,
       astal,
-      ...
     }:
     let
       system = "x86_64-linux";
@@ -60,5 +60,7 @@
       devShells.${system}.default = pkgs.mkShell {
         buildInputs = [ (ags.packages.${system}.default.override { extraPackages = extra; }) ];
       };
+
+      homeManagerModules.default = import ./hm-module.nix self;
     };
 }
