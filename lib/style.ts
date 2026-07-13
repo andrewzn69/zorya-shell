@@ -6,35 +6,41 @@ const decoder = new TextDecoder()
 const px = (v: number) => `${v}px`
 
 function generateVariables(config: Config): string {
-	const b = config.bar
+	const t = config.theme
+	// effective styling = global theme with the component's overrides on top
+	const barColors = { ...t.colors, ...config.bar.colors }
+	const barFonts = { ...t.fonts, ...config.bar.fonts }
+	const barSpacing = { ...t.spacing, ...config.bar.spacing }
 	const n = config.notifications
+	const nColors = { ...t.colors, ...n.colors }
+	const nSpacing = { ...t.spacing, ...n.spacing }
 	return [
-		`$bar-bg: ${b.colors.background};`,
-		`$bar-border: ${b.colors.border};`,
-		`$bar-text: ${b.colors.text};`,
-		`$bar-workspace-empty: ${b.colors.workspace_empty};`,
-		`$bar-workspace-occupied: ${b.colors.workspace_occupied};`,
-		`$bar-font-family: "${b.fonts.family}";`,
-		`$bar-font-size: ${px(b.fonts.size)};`,
-		`$bar-margin: ${px(b.spacing.margin)};`,
-		`$bar-padding: ${px(b.spacing.padding)};`,
-		`$bar-padding-large: ${px(b.spacing.padding_large)};`,
-		`$bar-border-width: ${px(b.spacing.border_width)};`,
-		`$bar-workspace-spacing: ${px(b.spacing.workspace_spacing)};`,
-		`$bar-workspace-size: ${px(b.spacing.workspace_size)};`,
-		`$bar-workspace-pill-width: ${px(b.spacing.workspace_pill_width)};`,
-		`$notif-bg: ${n.colors.background};`,
-		`$notif-border: ${n.colors.border};`,
-		`$notif-color-app: ${n.colors.app};`,
-		`$notif-color-summary: ${n.colors.summary};`,
-		`$notif-color-body: ${n.colors.body};`,
-		`$notif-color-progress: ${n.colors.progress};`,
+		`$bar-bg: ${barColors.background};`,
+		`$bar-border: ${barColors.border};`,
+		`$bar-text: ${barColors.primary};`,
+		`$bar-workspace-empty: ${barColors.muted};`,
+		`$bar-workspace-occupied: ${barColors.primary};`,
+		`$bar-font-family: "${barFonts.family}";`,
+		`$bar-font-size: ${px(barFonts.size)};`,
+		`$bar-margin: ${px(barSpacing.margin)};`,
+		`$bar-padding: ${px(barSpacing.padding)};`,
+		`$bar-padding-large: ${px(barSpacing.padding_large)};`,
+		`$bar-border-width: ${px(barSpacing.border_width)};`,
+		`$bar-workspace-spacing: ${px(barSpacing.workspace_spacing)};`,
+		`$bar-workspace-size: ${px(barSpacing.workspace_size)};`,
+		`$bar-workspace-pill-width: ${px(barSpacing.workspace_pill_width)};`,
+		`$notif-bg: ${nColors.background};`,
+		`$notif-border: ${nColors.border};`,
+		`$notif-color-app: ${nColors.secondary};`,
+		`$notif-color-summary: ${nColors.tertiary};`,
+		`$notif-color-body: ${nColors.text};`,
+		`$notif-color-progress: ${nColors.muted};`,
 		`$notif-font-size-app: ${px(n.fonts.size_app)};`,
 		`$notif-font-size-summary: ${px(n.fonts.size_summary)};`,
 		`$notif-font-size-body: ${px(n.fonts.size_body)};`,
-		`$notif-margin: ${px(n.spacing.margin)};`,
-		`$notif-padding: ${px(n.spacing.padding)};`,
-		`$notif-border-width: ${px(n.spacing.border_width)};`,
+		`$notif-margin: ${px(nSpacing.margin)};`,
+		`$notif-padding: ${px(nSpacing.padding)};`,
+		`$notif-border-width: ${px(nSpacing.border_width)};`,
 		`$notif-width: ${px(n.width)};`,
 	].join('\n')
 }
