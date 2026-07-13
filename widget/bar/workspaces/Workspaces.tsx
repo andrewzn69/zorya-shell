@@ -1,4 +1,3 @@
-import barConfig from "../../../config.json"
 import Hyprland from "gi://AstalHyprland"
 import { createState } from "ags"
 
@@ -45,10 +44,6 @@ export default function Workspaces({ monitorConnector }: { monitorConnector: str
 		.filter(rule => rule.monitor === monitorConnector)
 		.map(rule => parseInt(rule.workspaceString))
 		.sort((a, b) => a - b)
-
-	if (barConfig.debug) {
-		console.log(`Monitor ${monitorConnector}: assigned workspaces = ${assignedWorkspaces}`)
-	}
 
 	return (
 		<box class="workspaces-container">

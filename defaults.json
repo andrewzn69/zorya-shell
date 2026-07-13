@@ -9,31 +9,6 @@
 					"workspaces"
 				],
 				"right": []
-			},
-			"HDMI-A-1": {
-				"left": [
-					"workspaces"
-				],
-				"center": [
-					"spotify"
-				],
-				"right": [
-					"clock"
-				]
-			},
-			"DP-3": {
-				"left": [
-					"workspaces"
-				],
-				"center": [
-					"cpu",
-					"ram",
-					"disk",
-					"network"
-				],
-				"right": [
-					"clock"
-				]
 			}
 		},
 		"colors": {
@@ -59,7 +34,7 @@
 	},
 	"notifications": {
 		"enabled": true,
-		"monitor": "DP-3",
+		"monitor": "",
 		"corner": "top-right",
 		"duration": 5000,
 		"width": 240,
