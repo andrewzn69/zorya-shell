@@ -46,8 +46,8 @@ function generateVariables(config: Config): string {
 }
 
 export function loadStyle(config: Config): string {
-	const configDir = GLib.build_filenamev([GLib.get_user_config_dir(), "ags"])
-	const tmpDir = "/tmp/ags"
+	const styleDir = GLib.getenv("ZORYA_STYLE_DIR") ?? GLib.get_current_dir()
+	const tmpDir = "/tmp/zorya"
 
 	GLib.mkdir_with_parents(tmpDir, 0o755)
 
@@ -63,7 +63,7 @@ export function loadStyle(config: Config): string {
 	GLib.unlink(cssPath)
 
 	const [, , stderr, exitStatus] = GLib.spawn_command_line_sync(
-		`sass --no-source-map --load-path=${tmpDir} --load-path=${configDir} ${entryPath} ${cssPath}`
+		`sass --no-source-map --load-path=${tmpDir} --load-path=${styleDir} ${entryPath} ${cssPath}`
 	)
 
 	if (exitStatus !== 0) {

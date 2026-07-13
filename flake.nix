@@ -52,8 +52,16 @@
         ++ extra;
 
         installPhase = ''
-          mkdir -p $out/bin
+          mkdir -p $out/bin $out/share/zorya
           ags bundle app.ts $out/bin/zorya
+          find . -name '*.scss' -exec cp --parents {} $out/share/zorya/ \;
+        '';
+
+        preFixup = ''
+          gappsWrapperArgs+=(
+            --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.dart-sass ]}
+            --set ZORYA_STYLE_DIR $out/share/zorya
+          )
         '';
       };
 
