@@ -70,7 +70,7 @@ const setupProgressAnimation = (
 	hover.connect("enter", () => { hovered = true; stopTimer(); progressBar.fraction = 1 })
 	hover.connect("leave", () => { hovered = false; startTimer() })
 
-	const tickSrc = progressBar.add_tick_callback((_widget: Gtk.Widget, frameClock: any) => {
+	const tickSrc = progressBar.add_tick_callback((_widget: Gtk.Widget, frameClock: Gdk.FrameClock) => {
 		if (!hovered) {
 			const elapsed = (frameClock.get_frame_time() - startTime) / 1000
 			progressBar.fraction = Math.max(0, 1 - elapsed / cfg.duration)
