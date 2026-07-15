@@ -1,9 +1,9 @@
 import GLib from "gi://GLib"
 import SysInfo from "@widget/SysInfo"
 
-// Auto-scale to KiB/s or MiB/s (2s poll interval → divide delta by 2)
-function toRate(b: number): string {
-	const bps = b / 2
+// Auto-scale byte delta to KiB/s or MiB/s over the elapsed interval (seconds)
+function toRate(b: number, dt: number): string {
+	const bps = b / dt
 	if (bps >= 1048576) return `${(bps / 1048576).toFixed(2)} MiB/s`
 	return `${(bps / 1024).toFixed(2)} KiB/s`
 }
@@ -22,9 +22,9 @@ export default function Network() {
 		return { rx: dRx, tx: dTx }
 	}
 
-	const poll = () => {
+	const poll = (dt: number) => {
 		const n = readNet()
-		return `󰕒 ${toRate(n.tx)}  󰇚 ${toRate(n.rx)}`
+		return `󰕒 ${toRate(n.tx, dt)}  󰇚 ${toRate(n.rx, dt)}`
 	}
 
 	return <SysInfo class="network-container" initial="󰕒 0.00 KiB/s  󰇚 0.00 KiB/s" poll={poll} valueWidth={24} />
