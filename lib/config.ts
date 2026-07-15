@@ -4,12 +4,12 @@ import { type Config } from "@lib/types"
 
 const defaults = defaultsRaw as unknown as Config
 
-// deep-merge helper: recursively merge `override` onto `base`.
-// plain objects merge key-by-key; arrays and scalars replace wholesale.
+// type guard: true only for non-null, non-array objects
 function isPlainObject(x: unknown): x is Record<string, unknown> {
 	return typeof x === "object" && x !== null && !Array.isArray(x)
 }
 
+// recursively merge `override` onto `base`: plain objects merge key-by-key, arrays and scalars replace wholesale
 function deepMerge<T>(base: T, override: unknown): T {
 	if (override === undefined || override === null) return base
 	if (!isPlainObject(base) || !isPlainObject(override)) return override as T
@@ -20,6 +20,7 @@ function deepMerge<T>(base: T, override: unknown): T {
 	return result as T
 }
 
+// read the user config and merge it over the baked-in defaults; fall back to defaults if missing or invalid
 function loadConfig(): Config {
 	const path = GLib.build_filenamev([
 		GLib.get_user_config_dir(), "zorya", "config.json"
@@ -38,6 +39,7 @@ function loadConfig(): Config {
 
 export const config = loadConfig()
 
+// resolve a widget's poll interval in ms, falling back to the global default
 export function pollInterval(name: string): number {
 	return config.polling[name] ?? config.polling.default
 }
