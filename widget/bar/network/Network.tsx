@@ -1,19 +1,5 @@
 import GLib from "gi://GLib"
-import { createPoll } from "ags/time"
-import { createState } from "ags"
-
-let prevRx = 0, prevTx = 0
-function readNet(): { rx: number, tx: number } {
-	const [, b] = GLib.file_get_contents('/proc/net/dev')
-	const line = new TextDecoder().decode(b).split('\n')
-		.find(l => l.includes(':') && !l.trim().startsWith('lo') && !l.includes('Inter'))
-	if (!line) return { rx: 0, tx: 0 }
-	const p = line.trim().split(/\s+/)
-	const rx = parseInt(p[1]), tx = parseInt(p[9])
-	const dRx = Math.max(0, rx - prevRx), dTx = Math.max(0, tx - prevTx)
-	prevRx = rx; prevTx = tx
-	return { rx: dRx, tx: dTx }
-}
+import SysInfo from "@widget/SysInfo"
 
 // Auto-scale to KiB/s or MiB/s (2s poll interval → divide delta by 2)
 function toRate(b: number): string {
@@ -23,17 +9,23 @@ function toRate(b: number): string {
 }
 
 export default function Network() {
-	const [val, setVal] = createState("󰕒 0.00 KiB/s  󰇚 0.00 KiB/s")
-	const _tick = createPoll("", 2000, () => {
-		const n = readNet()
-		setVal(`󰕒 ${toRate(n.tx)}  󰇚 ${toRate(n.rx)}`)
-		return ""
-	})
+	let prevRx = 0, prevTx = 0
+	const readNet = (): { rx: number, tx: number } => {
+		const [, b] = GLib.file_get_contents('/proc/net/dev')
+		const line = new TextDecoder().decode(b).split('\n')
+			.find(l => l.includes(':') && !l.trim().startsWith('lo') && !l.includes('Inter'))
+		if (!line) return { rx: 0, tx: 0 }
+		const p = line.trim().split(/\s+/)
+		const rx = parseInt(p[1]), tx = parseInt(p[9])
+		const dRx = Math.max(0, rx - prevRx), dTx = Math.max(0, tx - prevTx)
+		prevRx = rx; prevTx = tx
+		return { rx: dRx, tx: dTx }
+	}
 
-	return (
-		<box class="network-container">
-			<label visible={false} label={_tick} />
-			<label class="sysinfo-value" label={val} widthChars={24} maxWidthChars={24} />
-		</box>
-	)
+	const poll = () => {
+		const n = readNet()
+		return `󰕒 ${toRate(n.tx)}  󰇚 ${toRate(n.rx)}`
+	}
+
+	return <SysInfo class="network-container" initial="󰕒 0.00 KiB/s  󰇚 0.00 KiB/s" poll={poll} valueWidth={24} />
 }

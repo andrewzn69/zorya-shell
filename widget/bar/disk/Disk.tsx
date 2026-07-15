@@ -1,6 +1,5 @@
 import Gio from "gi://Gio"
-import { createPoll } from "ags/time"
-import { createState } from "ags"
+import SysInfo from "@widget/SysInfo"
 
 function readDisk(): number {
 	const file = Gio.File.new_for_path('/')
@@ -9,14 +8,5 @@ function readDisk(): number {
 }
 
 export default function Disk() {
-	const [val, setVal] = createState("0 GiB")
-	const _tick = createPoll("", 2000, () => { setVal(`${readDisk().toFixed(0)} GiB`); return "" })
-
-	return (
-		<box class="disk-container">
-			<label visible={false} label={_tick} />
-			<label class="sysinfo-icon" label="󰋊 " />
-			<label class="sysinfo-value" label={val} />
-		</box>
-	)
+	return <SysInfo class="disk-container" initial="0 GiB" icon="󰋊 " poll={() => `${readDisk().toFixed(0)} GiB`} />
 }
