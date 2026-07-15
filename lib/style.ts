@@ -1,5 +1,5 @@
 import GLib from "gi://GLib"
-import { type Config } from "@lib/config"
+import { type Config } from "@lib/types"
 
 const decoder = new TextDecoder()
 

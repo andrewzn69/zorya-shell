@@ -5,7 +5,8 @@ import GdkPixbuf from "gi://GdkPixbuf"
 import GLib from "gi://GLib"
 import { Astal, Gdk as AGdk } from "ags/gtk4"
 import app from "ags/gtk4/app"
-import { config, type Corner } from "@lib/config"
+import { config } from "@lib/config"
+import { type Corner } from "@lib/types"
 
 const notifd = Notifd.get_default()
 const cfg = config.notifications
