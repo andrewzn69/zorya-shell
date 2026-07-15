@@ -47,9 +47,7 @@ function generateVariables(config: Config): string {
 
 export function loadStyle(config: Config): string {
 	const styleDir = GLib.getenv("ZORYA_STYLE_DIR") ?? GLib.get_current_dir()
-	const tmpDir = "/tmp/zorya"
-
-	GLib.mkdir_with_parents(tmpDir, 0o755)
+	const tmpDir = GLib.Dir.make_tmp("zorya-XXXXXX")
 
 	const varsPath = `${tmpDir}/_variables.scss`
 	const entryPath = `${tmpDir}/entry.scss`
