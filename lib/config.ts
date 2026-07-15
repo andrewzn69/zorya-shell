@@ -105,8 +105,13 @@ function loadConfig(): Config {
 	if (!GLib.file_test(path, GLib.FileTest.EXISTS)) return defaults
 	const [ok, contents] = GLib.file_get_contents(path)
 	if (!ok) return defaults
-	const user = JSON.parse(new TextDecoder().decode(contents as Uint8Array))
-	return deepMerge(defaults, user)
+	try {
+		const user = JSON.parse(new TextDecoder().decode(contents as Uint8Array))
+		return deepMerge(defaults, user)
+	} catch (e) {
+		console.error(`zorya: invalid config at ${path}, using defaults:`, e)
+		return defaults
+	}
 }
 
 export const config = loadConfig()

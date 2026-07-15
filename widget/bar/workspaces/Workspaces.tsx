@@ -38,7 +38,12 @@ function WorkspaceButton({ wsId }: { wsId: number }) {
 
 export default function Workspaces({ monitorConnector }: { monitorConnector: string }) {
 	const workspaceRulesJson = hyprland.message("j/workspacerules")
-	const workspaceRules: WorkspaceRule[] = JSON.parse(workspaceRulesJson)
+	let workspaceRules: WorkspaceRule[] = []
+	try {
+		workspaceRules = JSON.parse(workspaceRulesJson)
+	} catch (e) {
+		console.error("zorya: failed to parse workspacerules:", e)
+	}
 
 	const assignedWorkspaces = workspaceRules
 		.filter(rule => rule.monitor === monitorConnector)
