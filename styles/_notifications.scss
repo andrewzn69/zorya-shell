@@ -1,56 +1,102 @@
-$notif-progress-height: 3px;
-
-.Notifications {
-  background-color: transparent;
+window.Notifications {
+  all: unset;
 }
 
-.notif-popup {
+.Notification {
+  border-radius: $notif-radius;
   background-color: $notif-bg;
-  border: $notif-border-width solid $notif-border;
-  margin: $notif-margin;
-  min-width: $notif-width;
-}
+  margin: 0.5rem 1rem 0.5rem 1rem;
+  box-shadow: 2px 3px 8px 0 rgba(black, 0.4);
+  border: $notif-border-width solid rgba($notif-fg, 0.03);
 
-.notif-icon {
-  padding: $notif-padding;
-}
+  &.critical {
+    border: $notif-border-width solid rgba($notif-critical, 0.4);
 
-.notif-content {
-  padding: $notif-padding;
-}
+    .header {
+      .app-name {
+        color: rgba($notif-critical, 0.8);
+      }
 
-.notif-header {
-  margin-bottom: $notif-padding;
-}
-
-.notif-app {
-  color: $notif-color-app;
-  font-size: $notif-font-size-app;
-  font-weight: bold;
-}
-
-.notif-summary {
-  color: $notif-color-summary;
-  font-weight: bold;
-  font-size: $notif-font-size-summary;
-}
-
-.notif-body {
-  color: $notif-color-body;
-  font-size: $notif-font-size-body;
-}
-
-.notif-progress {
-  trough, trough progress {
-    min-height: $notif-progress-height;
-    border-radius: 0;
+      .app-icon {
+        color: rgba($notif-critical, 0.6);
+      }
+    }
   }
 
-  trough {
-    background-color: $notif-bg;
+  .header {
+    padding: 0.5rem;
+    color: rgba($notif-fg, 0.5);
+
+    .app-icon {
+      margin: 0 0.4rem;
+    }
+
+    .app-name {
+      margin-right: 0.3rem;
+      font-weight: bold;
+      font-size: $notif-font-size-app;
+
+      &:first-child {
+        margin-left: 0.4rem;
+      }
+    }
+
+    .time {
+      margin: 0 0.4rem;
+    }
+
+    button {
+      padding: 0.2rem;
+      min-width: 0;
+      min-height: 0;
+    }
   }
 
-  trough progress {
-    background-color: $notif-color-progress;
+  .separator {
+    min-height: 1px;
+    margin: 0 0.4rem;
+    background-color: rgba($notif-fg, 0.1);
+  }
+
+  .content {
+    margin: 1rem;
+    margin-top: 0.5rem;
+
+    .summary {
+      font-size: $notif-font-size-summary;
+      color: $notif-fg;
+    }
+
+    .body {
+      font-size: $notif-font-size-body;
+      color: rgba($notif-fg, 0.8);
+    }
+
+    .image {
+      border: 1px solid rgba($notif-fg, 0.02);
+      margin-right: 0.5rem;
+      border-radius: 9px;
+      min-width: 100px;
+      min-height: 100px;
+      background-size: cover;
+      background-position: center;
+    }
+  }
+
+  .actions {
+    margin: 1rem;
+    margin-top: 0;
+
+    button {
+      margin: 0 0.3rem;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
   }
 }

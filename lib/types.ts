@@ -19,6 +19,7 @@ export interface Spacing {
 	margin: number
 	padding: number
 	border_width: number
+	border_radius: number
 }
 
 export interface Theme {
