@@ -73,7 +73,7 @@ function Notification({ n, dismiss }: { n: Notifd.Notification; dismiss: () => v
 }
 
 export default function Notifications(monitor: AGdk.Monitor) {
-	const [notifications, setNotifications] = createState(notifd.get_notifications())
+	const [notifications, setNotifications] = createState<Notifd.Notification[]>([])
 
 	const dismiss = (n: Notifd.Notification) => {
 		setNotifications(ns => ns.filter(x => x.id !== n.id))
