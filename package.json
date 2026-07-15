@@ -1,4 +1,7 @@
 {
+	"scripts": {
+		"schema": "npx -y ts-json-schema-generator --path lib/types.ts --type Config --out schema.json"
+	},
 	"dependencies": {
 		"ags": "*",
 		"gnim": "*"
