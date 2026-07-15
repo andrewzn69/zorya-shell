@@ -37,14 +37,17 @@ function urgency(n: Notifd.Notification) {
 	return "normal"
 }
 
-function Notification({ n }: { n: Notifd.Notification }) {
+function Notification({ n, dismiss }: { n: Notifd.Notification; dismiss: () => void }) {
+	const timer = setTimeout(dismiss, cfg.duration)
+	onCleanup(() => clearTimeout(timer))
+
 	return (
 		<box class={`Notification ${urgency(n)}`} orientation={VERTICAL} widthRequest={cfg.width}>
 			<box class="header">
 				{n.appIcon && <image class="app-icon" iconName={n.appIcon} />}
 				<label class="app-name" hexpand xalign={0} label={n.appName || "Unknown"} />
 				<label class="time" xalign={1} label={time(n.time)} />
-				<button onClicked={() => n.dismiss()}>
+				<button onClicked={dismiss}>
 					<image iconName="window-close-symbolic" />
 				</button>
 			</box>
@@ -71,6 +74,11 @@ function Notification({ n }: { n: Notifd.Notification }) {
 
 export default function Notifications(monitor: AGdk.Monitor) {
 	const [notifications, setNotifications] = createState(notifd.get_notifications())
+
+	const dismiss = (n: Notifd.Notification) => {
+		setNotifications(ns => ns.filter(x => x.id !== n.id))
+		n.dismiss()
+	}
 
 	const notifiedHandler = notifd.connect("notified", (_: Notifd.Notifd, id: number, replaced: boolean) => {
 		const n = notifd.get_notification(id)
@@ -102,7 +110,7 @@ export default function Notifications(monitor: AGdk.Monitor) {
 		>
 			<box orientation={VERTICAL} spacing={8} valign={CORNER[cfg.corner].valign}>
 				<For each={notifications}>
-					{(n: Notifd.Notification) => <Notification n={n} />}
+					{(n: Notifd.Notification) => <Notification n={n} dismiss={() => dismiss(n)} />}
 				</For>
 			</box>
 		</window>
