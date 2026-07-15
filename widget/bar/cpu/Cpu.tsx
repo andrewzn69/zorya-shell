@@ -1,5 +1,6 @@
 import GLib from "gi://GLib"
 import SysInfo from "@widget/SysInfo"
+import { pollInterval } from "@lib/config"
 
 export default function Cpu() {
 	let prevIdle = 0, prevTotal = 0
@@ -12,5 +13,5 @@ export default function Cpu() {
 		prevIdle = idle; prevTotal = total
 		return Math.max(0, Math.min(100, pct))
 	}
-	return <SysInfo class="cpu-container" initial="0%" icon="󰍛 " poll={() => `${readCpu()}%`} />
+	return <SysInfo class="cpu-container" initial="0%" icon="󰍛 " interval={pollInterval("cpu")} poll={() => `${readCpu()}%`} />
 }

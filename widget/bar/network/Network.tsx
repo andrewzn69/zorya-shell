@@ -1,6 +1,7 @@
 import GLib from "gi://GLib"
 import SysInfo from "@widget/SysInfo"
 import { formatBytes } from "@lib/units"
+import { pollInterval } from "@lib/config"
 
 export default function Network() {
 	let prevRx = 0, prevTx = 0
@@ -21,5 +22,5 @@ export default function Network() {
 		return `󰕒 ${formatBytes(n.tx / dt, 2)}/s  󰇚 ${formatBytes(n.rx / dt, 2)}/s`
 	}
 
-	return <SysInfo class="network-container" initial="󰕒 0.00 KiB/s  󰇚 0.00 KiB/s" poll={poll} valueWidth={24} />
+	return <SysInfo class="network-container" initial="󰕒 0.00 KiB/s  󰇚 0.00 KiB/s" interval={pollInterval("network")} poll={poll} valueWidth={24} />
 }

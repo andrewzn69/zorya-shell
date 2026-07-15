@@ -52,5 +52,9 @@
 			"size_summary": 14,
 			"size_body": 12
 		}
+	},
+	"polling": {
+		"default": 2000,
+		"clock": 1000
 	}
 }

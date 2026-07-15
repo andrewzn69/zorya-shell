@@ -1,6 +1,7 @@
 import Gio from "gi://Gio"
 import SysInfo from "@widget/SysInfo"
 import { formatBytes } from "@lib/units"
+import { pollInterval } from "@lib/config"
 
 function readDiskFree(): number {
 	const file = Gio.File.new_for_path('/')
@@ -9,5 +10,5 @@ function readDiskFree(): number {
 }
 
 export default function Disk() {
-	return <SysInfo class="disk-container" initial="0 GiB" icon="󰋊 " poll={() => formatBytes(readDiskFree(), 0)} />
+	return <SysInfo class="disk-container" initial="0 GiB" icon="󰋊 " interval={pollInterval("disk")} poll={() => formatBytes(readDiskFree(), 0)} />
 }

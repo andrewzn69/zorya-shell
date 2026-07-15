@@ -73,11 +73,17 @@ export interface NotifConfig {
 	spacing?: Partial<Spacing>
 }
 
+export interface PollingConfig {
+	default: number
+	[widget: string]: number
+}
+
 export interface Config {
 	version: number
 	theme: Theme
 	bar: BarConfig
 	notifications: NotifConfig
+	polling: PollingConfig
 }
 
 const defaults = defaultsRaw as unknown as Config
@@ -115,3 +121,7 @@ function loadConfig(): Config {
 }
 
 export const config = loadConfig()
+
+export function pollInterval(name: string): number {
+	return config.polling[name] ?? config.polling.default
+}
