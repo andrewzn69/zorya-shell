@@ -43,22 +43,23 @@ function Notification({ n, dismiss }: { n: Notifd.Notification; dismiss: () => v
 
 	return (
 		<box class={`Notification ${urgency(n)}`} orientation={VERTICAL} widthRequest={cfg.width}>
-			<box class="header">
-				{n.appIcon && <image class="app-icon" iconName={n.appIcon} />}
-				<label class="app-name" hexpand xalign={0} label={n.appName || "Unknown"} />
-				<label class="time" xalign={1} label={time(n.time)} />
-				<button onClicked={dismiss}>
-					<image iconName="window-close-symbolic" />
-				</button>
-			</box>
-			<box class="separator" />
-			<box class="content">
-				{n.image && fileExists(n.image) && <image class="image" file={n.image} />}
+			<button class="notif-click" onClicked={dismiss}>
 				<box orientation={VERTICAL}>
-					<label class="summary" xalign={0} label={n.summary} />
-					{n.body && <label class="body" xalign={0} wrap useMarkup maxWidthChars={cfg.max_chars} label={n.body} />}
+					<box class="header">
+						{n.appIcon && <image class="app-icon" iconName={n.appIcon} />}
+						<label class="app-name" hexpand xalign={0} label={n.appName || "Unknown"} />
+						<label class="time" xalign={1} label={time(n.time)} />
+					</box>
+					<box class="separator" />
+					<box class="content">
+						{n.image && fileExists(n.image) && <image class="image" file={n.image} />}
+						<box orientation={VERTICAL}>
+							<label class="summary" xalign={0} label={n.summary} />
+							{n.body && <label class="body" xalign={0} wrap useMarkup maxWidthChars={cfg.max_chars} label={n.body} />}
+						</box>
+					</box>
 				</box>
-			</box>
+			</button>
 			{n.actions.length > 0 && (
 				<box class="actions">
 					{n.actions.map(({ label, id }) => (

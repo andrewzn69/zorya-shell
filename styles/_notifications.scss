@@ -9,6 +9,10 @@ window.Notifications {
   box-shadow: 2px 3px 8px 0 rgba(black, 0.4);
   border: $notif-border-width solid rgba($notif-fg, 0.03);
 
+  .notif-click {
+    all: unset;
+  }
+
   &.critical {
     border: $notif-border-width solid rgba($notif-critical, 0.4);
 
@@ -43,12 +47,6 @@ window.Notifications {
 
     .time {
       margin: 0 0.4rem;
-    }
-
-    button {
-      padding: 0.2rem;
-      min-width: 0;
-      min-height: 0;
     }
   }
 
