@@ -99,7 +99,7 @@ export default function Notifications(monitor: AGdk.Monitor) {
 
 	return (
 		<window
-			visible
+			visible={notifications(ns => ns.length > 0)}
 			name="notifications"
 			class="Notifications"
 			gdkmonitor={monitor}
