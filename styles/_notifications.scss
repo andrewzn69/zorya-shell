@@ -47,6 +47,8 @@ window.Notifications {
 
     .time {
       margin: 0 0.4rem;
+      font-size: $notif-font-size-app;
+      font-weight: bold;
     }
   }
 
