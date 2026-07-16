@@ -30,6 +30,7 @@ function generateVariables(config: Config): string {
 		`$bar-workspace-size: ${px(barSpacing.workspace_size)};`,
 		`$bar-workspace-pill-width: ${px(barSpacing.workspace_pill_width)};`,
 		`$notif-bg: ${nColors.background};`,
+		`$notif-border: ${nColors.border};`,
 		`$notif-fg: ${nColors.text};`,
 		`$notif-critical: ${nColors.primary};`,
 		`$notif-font-size-app: ${px(n.fonts.size_app)};`,
