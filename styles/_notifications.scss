@@ -60,7 +60,7 @@ window.Notifications {
 
   .content {
     margin: 1rem;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 
     .summary {
       font-size: $notif-font-size-summary;
@@ -68,6 +68,7 @@ window.Notifications {
     }
 
     .body {
+      margin-top: 0.5rem;
       font-size: $notif-font-size-body;
       color: rgba($notif-fg, 0.8);
     }
