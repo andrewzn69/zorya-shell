@@ -22,52 +22,87 @@
       astal,
     }:
     let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-      astalPkgs = astal.packages.${system};
-      extra = [
-        astalPkgs.hyprland
-        astalPkgs.mpris
-        astalPkgs.notifd
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
       ];
+
+      forAllSystems =
+        f:
+        nixpkgs.lib.genAttrs systems (
+          system:
+          let
+            astalPkgs = astal.packages.${system};
+          in
+          f {
+            inherit astalPkgs;
+            pkgs = nixpkgs.legacyPackages.${system};
+            agsPackage = ags.packages.${system}.default;
+            extra = [
+              astalPkgs.hyprland
+              astalPkgs.mpris
+              astalPkgs.notifd
+            ];
+          }
+        );
     in
     {
-      packages.${system}.default = pkgs.stdenv.mkDerivation {
-        pname = "zorya";
-        version = "0.0.1";
-        src = ./.;
+      packages = forAllSystems (
+        {
+          pkgs,
+          astalPkgs,
+          agsPackage,
+          extra,
+        }:
+        {
+          default = pkgs.stdenv.mkDerivation {
+            pname = "zorya";
+            version = "0.0.1";
+            src = ./.;
 
-        nativeBuildInputs = with pkgs; [
-          wrapGAppsHook4
-          gobject-introspection
-          ags.packages.${system}.default
-        ];
+            nativeBuildInputs = with pkgs; [
+              wrapGAppsHook4
+              gobject-introspection
+              agsPackage
+            ];
 
-        buildInputs = [
-          pkgs.glib
-          pkgs.gjs
-          astalPkgs.io
-          astalPkgs.astal4
-        ]
-        ++ extra;
+            buildInputs = [
+              pkgs.glib
+              pkgs.gjs
+              astalPkgs.io
+              astalPkgs.astal4
+            ]
+            ++ extra;
 
-        installPhase = ''
-          mkdir -p $out/bin $out/share/zorya
-          ags bundle app.ts $out/bin/zorya
-          find . -name '*.scss' -exec cp --parents {} $out/share/zorya/ \;
-        '';
+            installPhase = ''
+              mkdir -p $out/bin $out/share/zorya
+              ags bundle app.ts $out/bin/zorya
+              find . -name '*.scss' -exec cp --parents {} $out/share/zorya/ \;
+            '';
 
-        preFixup = ''
-          gappsWrapperArgs+=(
-            --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.dart-sass ]}
-            --set ZORYA_STYLE_DIR $out/share/zorya
-          )
-        '';
-      };
+            preFixup = ''
+              gappsWrapperArgs+=(
+                --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.dart-sass ]}
+                --set ZORYA_STYLE_DIR $out/share/zorya
+              )
+            '';
+          };
+        }
+      );
 
-      devShells.${system}.default = pkgs.mkShell {
-        buildInputs = [ (ags.packages.${system}.default.override { extraPackages = extra; }) ];
-      };
+      devShells = forAllSystems (
+        {
+          pkgs,
+          agsPackage,
+          extra,
+          ...
+        }:
+        {
+          default = pkgs.mkShell {
+            buildInputs = [ (agsPackage.override { extraPackages = extra; }) ];
+          };
+        }
+      );
 
       homeManagerModules.default = import ./hm-module.nix self;
     };
