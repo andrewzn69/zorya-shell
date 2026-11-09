@@ -53,6 +53,7 @@
           astalPkgs,
           agsPackage,
           extra,
+          ...
         }:
         {
           default = pkgs.stdenv.mkDerivation {
