@@ -16,6 +16,7 @@ interface Sample {
 	iface: string
 	rxBytes: number
 	txBytes: number
+	monotonicTimeUs: number
 }
 
 function readLines(path: string): string[] {
@@ -43,6 +44,7 @@ function readSample(): Sample | null {
 		iface,
 		rxBytes: parseInt(fields[RX_BYTES_FIELD]),
 		txBytes: parseInt(fields[TX_BYTES_FIELD]),
+		monotonicTimeUs: GLib.get_monotonic_time(),
 	}
 }
 
@@ -50,16 +52,20 @@ export default function Network() {
 	// the counters are totals, so the first poll needs an earlier sample to subtract
 	let previous = readSample()
 
-	const poll = (intervalSec: number) => {
+	const poll = () => {
 		const current = readSample()
-		let rxBytes = 0, txBytes = 0
+		let rxRate = 0, txRate = 0
 		// counters of two different interfaces can't be subtracted
 		if (previous && current && previous.iface === current.iface) {
-			rxBytes = Math.max(0, current.rxBytes - previous.rxBytes)
-			txBytes = Math.max(0, current.txBytes - previous.txBytes)
+			const seconds = (current.monotonicTimeUs - previous.monotonicTimeUs) / GLib.USEC_PER_SEC
+
+			if (seconds > 0) {
+				rxRate = Math.max(0, current.rxBytes - previous.rxBytes) / seconds
+				txRate = Math.max(0, current.txBytes - previous.txBytes) / seconds
+			}
 		}
 		previous = current
-		return `󰜷 ${formatBytes(txBytes / intervalSec, 2)}/s  󰜮 ${formatBytes(rxBytes / intervalSec, 2)}/s`
+		return `󰜷 ${formatBytes(txRate, 2)}/s  󰜮 ${formatBytes(rxRate, 2)}/s`
 	}
 
 	return <SysInfo class="network-container" initial="󰜷 0.00 KiB/s  󰜮 0.00 KiB/s" interval={pollInterval("network")} poll={poll} valueWidth={24} />
