@@ -14,7 +14,7 @@ in
     enable = lib.mkEnableOption "zorya shell";
     package = lib.mkOption {
       type = lib.types.package;
-      default = self.packages.${pkgs.system}.default;
+      default = self.packages.${pkgs.stdenv.hostPlatform.system}.default;
     };
     settings = lib.mkOption {
       type = json.type;
