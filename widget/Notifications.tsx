@@ -60,7 +60,9 @@ function Notification({
 			<button class="notif-click" onClicked={dismiss}>
 				<box orientation={VERTICAL}>
 					<box class="header">
-						{n.appIcon && <image class="app-icon" iconName={n.appIcon} />}
+						{Boolean(n.appIcon) && (
+							<image class="app-icon" iconName={n.appIcon} />
+						)}
 						<label
 							class="app-name"
 							hexpand={true}
@@ -76,7 +78,7 @@ function Notification({
 						)}
 						<box orientation={VERTICAL}>
 							<label class="summary" label={n.summary} xalign={0} />
-							{n.body && (
+							{Boolean(n.body) && (
 								<label
 									class="body"
 									label={n.body}
