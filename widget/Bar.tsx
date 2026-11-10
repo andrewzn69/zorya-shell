@@ -1,15 +1,15 @@
 import { config } from "@lib/config";
 import { Astal, type Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
-import Clock from "./bar/clock/Clock";
-import Cpu from "./bar/cpu/Cpu";
-import Disk from "./bar/disk/Disk";
-import Network from "./bar/network/Network";
-import Ram from "./bar/ram/Ram";
-import Spotify from "./bar/spotify/Spotify";
-import Workspaces from "./bar/workspaces/Workspaces";
+import { Clock } from "./bar/clock/Clock";
+import { Cpu } from "./bar/cpu/Cpu";
+import { Disk } from "./bar/disk/Disk";
+import { Network } from "./bar/network/Network";
+import { Ram } from "./bar/ram/Ram";
+import { Spotify } from "./bar/spotify/Spotify";
+import { Workspaces } from "./bar/workspaces/Workspaces";
 
-export default function Bar(gdkmonitor: Gdk.Monitor) {
+export function Bar(gdkmonitor: Gdk.Monitor) {
 	const { TOP, LEFT, RIGHT } = Astal.WindowAnchor;
 	const connector = gdkmonitor.get_connector() ?? "";
 

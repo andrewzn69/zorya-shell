@@ -1,7 +1,7 @@
 import { pollInterval } from "@lib/config";
 import { createPoll } from "ags/time";
 
-export default function Clock() {
+export function Clock() {
 	const time = createPoll("", pollInterval("clock"), () => {
 		const date = new Date();
 		return date.toLocaleTimeString("en-US", {

@@ -10,7 +10,7 @@ interface SysInfoProps {
 	valueWidth?: number; // fixed char width for the value, avoids width jitter
 }
 
-export default function SysInfo({
+export function SysInfo({
 	class: cls,
 	initial,
 	poll,

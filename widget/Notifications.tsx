@@ -103,7 +103,7 @@ function Notification({
 	);
 }
 
-export default function Notifications(monitor: AGdk.Monitor) {
+export function Notifications(monitor: AGdk.Monitor) {
 	const [notifications, setNotifications] = createState<Notifd.Notification[]>(
 		[],
 	);

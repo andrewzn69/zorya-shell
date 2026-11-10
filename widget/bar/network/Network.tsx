@@ -1,7 +1,7 @@
 import GLib from "gi://GLib";
 import { pollInterval } from "@lib/config";
 import { formatBytes } from "@lib/units";
-import SysInfo from "@widget/SysInfo";
+import { SysInfo } from "@widget/SysInfo";
 
 const RX_BYTES_FIELD = 1;
 const TX_BYTES_FIELD = 9;
@@ -62,7 +62,7 @@ function readSample(): Sample | null {
 	};
 }
 
-export default function Network() {
+export function Network() {
 	// a rate needs two samples a full interval apart, so the first poll only takes one
 	let previous: Sample | null = null;
 

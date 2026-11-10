@@ -1,7 +1,7 @@
 import { config } from "@lib/config";
 import { loadStyle } from "@lib/style";
-import Bar from "@widget/Bar";
-import Notifications from "@widget/Notifications";
+import { Bar } from "@widget/Bar";
+import { Notifications } from "@widget/Notifications";
 import app from "ags/gtk4/app";
 
 app.start({

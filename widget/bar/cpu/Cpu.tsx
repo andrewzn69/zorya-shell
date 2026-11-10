@@ -1,6 +1,6 @@
 import GLib from "gi://GLib";
 import { pollInterval } from "@lib/config";
-import SysInfo from "@widget/SysInfo";
+import { SysInfo } from "@widget/SysInfo";
 
 const IDLE_FIELD = 3;
 const IOWAIT_FIELD = 4;
@@ -23,7 +23,7 @@ function readSample(): Sample {
 	};
 }
 
-export default function Cpu() {
+export function Cpu() {
 	let previous: Sample | null = null;
 
 	const poll = () => {

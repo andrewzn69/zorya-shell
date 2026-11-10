@@ -40,11 +40,7 @@ function WorkspaceButton({ wsId }: { wsId: number }) {
 	);
 }
 
-export default function Workspaces({
-	monitorConnector,
-}: {
-	monitorConnector: string;
-}) {
+export function Workspaces({ monitorConnector }: { monitorConnector: string }) {
 	const workspaceRulesJson = hyprland.message("j/workspacerules");
 	let workspaceRules: WorkspaceRule[] = [];
 	try {

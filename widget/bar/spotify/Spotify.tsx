@@ -13,7 +13,7 @@ const FADE_FRAMES = 45; // ~720ms
 
 type Phase = "scrolling" | "holding" | "fade-out" | "fade-in";
 
-export default function Spotify() {
+export function Spotify() {
 	const spotify = Mpris.Player.new("spotify");
 	const [isVisible, setIsVisible] = createState(false);
 

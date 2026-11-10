@@ -1,7 +1,7 @@
 import GLib from "gi://GLib";
 import { pollInterval } from "@lib/config";
 import { formatBytes } from "@lib/units";
-import SysInfo from "@widget/SysInfo";
+import { SysInfo } from "@widget/SysInfo";
 
 function readRamUsed(): number {
 	const [, b] = GLib.file_get_contents("/proc/meminfo");
@@ -14,11 +14,11 @@ function readRamUsed(): number {
 	return (get("MemTotal") - get("MemAvailable")) * 1024;
 }
 
-export default function Ram() {
+export function Ram() {
 	return (
 		<SysInfo
 			class="ram-container"
-			icon="  "
+			icon="  "
 			initial="0.0 GiB"
 			interval={pollInterval("ram")}
 			poll={() => formatBytes(readRamUsed(), 1)}
