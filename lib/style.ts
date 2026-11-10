@@ -52,12 +52,14 @@ export function loadStyle(config: Config): string {
 	const entryPath = `${tmpDir}/entry.scss`;
 	const cssPath = `${tmpDir}/style.css`;
 
-	if (!GLib.file_set_contents(varsPath, generateVariables(config)))
+	if (!GLib.file_set_contents(varsPath, generateVariables(config))) {
 		throw new Error(`failed to write ${varsPath}`);
+	}
 	if (
 		!GLib.file_set_contents(entryPath, `@import 'variables';\n@import 'style';`)
-	)
+	) {
 		throw new Error(`failed to write ${entryPath}`);
+	}
 
 	GLib.unlink(cssPath);
 
@@ -71,6 +73,8 @@ export function loadStyle(config: Config): string {
 	}
 
 	const [ok, bytes] = GLib.file_get_contents(cssPath);
-	if (!ok) throw new Error("sass produced no output");
+	if (!ok) {
+		throw new Error("sass produced no output");
+	}
 	return decoder.decode(bytes);
 }

@@ -43,14 +43,18 @@ export default function Spotify() {
 
 	const _tick = createPoll("", FRAME_MS, () => {
 		const adj = sw.get_hadjustment();
-		if (!adj || fields.length === 0 || adj.page_size <= 0) return "";
+		if (!adj || fields.length === 0 || adj.page_size <= 0) {
+			return "";
+		}
 
 		switch (phase) {
 			case Phase.SCROLLING: {
 				// Initial wait before scrolling starts
 				if (counter < HOLD_FRAMES_END_INITIAL) {
 					counter++;
-					if (idx === 0) titleTimer++;
+					if (idx === 0) {
+						titleTimer++;
+					}
 					break;
 				}
 
@@ -125,7 +129,9 @@ export default function Spotify() {
 			}
 			case Phase.FADE_OUT:
 				if (++counter >= FADE_FRAMES) {
-					if (fields.length > 1) idx = (idx + 1) % fields.length;
+					if (fields.length > 1) {
+						idx = (idx + 1) % fields.length;
+					}
 					if (idx === 0) {
 						titleTimer = 0;
 						scrollDir = 1;
@@ -160,7 +166,9 @@ export default function Spotify() {
 		label.css_classes = ["spotify-track"];
 		label.label = fields[i] ?? "";
 		const adj = sw.get_hadjustment();
-		if (adj) adj.value = 0;
+		if (adj) {
+			adj.value = 0;
+		}
 	};
 
 	const setPlaying = (playing: boolean) => {
@@ -186,7 +194,9 @@ export default function Spotify() {
 			const titleChanged = newFields[0] !== fields[0];
 			fields = newFields;
 			setPlaying(true);
-			if (titleChanged) reset(0);
+			if (titleChanged) {
+				reset(0);
+			}
 		} else {
 			fields = ["Paused"];
 			setPlaying(false);

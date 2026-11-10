@@ -14,7 +14,9 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 	const connector = gdkmonitor.get_connector() ?? "";
 
 	const layout = config.bar.layouts[connector] ?? config.bar.layouts["*"];
-	if (!layout) return null;
+	if (!layout) {
+		return null;
+	}
 
 	const renderSlot = (names: string[]) =>
 		names.flatMap((name) => {

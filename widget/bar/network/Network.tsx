@@ -41,12 +41,16 @@ function defaultRouteIface(): string | null {
 
 function readSample(): Sample | null {
 	const iface = defaultRouteIface();
-	if (!iface) return null;
+	if (!iface) {
+		return null;
+	}
 
 	const line = readLines("/proc/net/dev").find((entry) =>
 		entry.trim().startsWith(`${iface}:`),
 	);
-	if (!line) return null;
+	if (!line) {
+		return null;
+	}
 
 	const fields = line.trim().split(/\s+/);
 	return {

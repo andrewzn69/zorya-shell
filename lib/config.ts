@@ -11,8 +11,12 @@ function isPlainObject(x: unknown): x is Record<string, unknown> {
 
 // recursively merge `override` onto `base`: plain objects merge key-by-key, arrays and scalars replace wholesale
 function deepMerge<T>(base: T, override: unknown): T {
-	if (override === undefined || override === null) return base;
-	if (!isPlainObject(base) || !isPlainObject(override)) return override as T;
+	if (override === undefined || override === null) {
+		return base;
+	}
+	if (!isPlainObject(base) || !isPlainObject(override)) {
+		return override as T;
+	}
 	const result: Record<string, unknown> = { ...base };
 	for (const key of Object.keys(override)) {
 		result[key] = deepMerge(result[key], override[key]);
@@ -27,9 +31,13 @@ function loadConfig(): Config {
 		"zorya",
 		"config.json",
 	]);
-	if (!GLib.file_test(path, GLib.FileTest.EXISTS)) return defaults;
+	if (!GLib.file_test(path, GLib.FileTest.EXISTS)) {
+		return defaults;
+	}
 	const [ok, contents] = GLib.file_get_contents(path);
-	if (!ok) return defaults;
+	if (!ok) {
+		return defaults;
+	}
 	try {
 		const user = JSON.parse(new TextDecoder().decode(contents as Uint8Array));
 		return deepMerge(defaults, user);

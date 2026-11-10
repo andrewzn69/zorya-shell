@@ -8,14 +8,17 @@ app.start({
 	css: loadStyle(config),
 	main() {
 		const monitors = app.get_monitors();
-		if (config.bar.enabled) monitors.forEach(Bar);
+		if (config.bar.enabled) {
+			monitors.forEach(Bar);
+		}
 		if (config.notifications.enabled) {
 			const connector = config.notifications.monitor;
 			const monitor = monitors.find((m) => m.get_connector() === connector);
-			if (!monitor)
+			if (!monitor) {
 				console.warn(
 					`monitor "${connector}" not found, falling back to primary`,
 				);
+			}
 			Notifications(monitor ?? monitors[0]);
 		}
 	},

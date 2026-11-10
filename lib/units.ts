@@ -7,8 +7,9 @@ const UNITS = [
 
 export function formatBytes(bytes: number, decimals = 1): string {
 	for (const u of UNITS) {
-		if (bytes >= u.scale)
+		if (bytes >= u.scale) {
 			return `${(bytes / u.scale).toFixed(decimals)} ${u.suffix}`;
+		}
 	}
 	return `${bytes.toFixed(decimals)} B`;
 }

@@ -32,8 +32,12 @@ function fileExists(path: string) {
 
 function urgency(n: Notifd.Notification) {
 	const { LOW, CRITICAL } = Notifd.Urgency;
-	if (n.urgency === LOW) return "low";
-	if (n.urgency === CRITICAL) return "critical";
+	if (n.urgency === LOW) {
+		return "low";
+	}
+	if (n.urgency === CRITICAL) {
+		return "critical";
+	}
 	return "normal";
 }
 
@@ -113,7 +117,9 @@ export default function Notifications(monitor: AGdk.Monitor) {
 		"notified",
 		(_: Notifd.Notifd, id: number, replaced: boolean) => {
 			const n = notifd.get_notification(id);
-			if (!n) return;
+			if (!n) {
+				return;
+			}
 			if (replaced && notifications.get().some((x) => x.id === id)) {
 				setNotifications((ns) => ns.map((x) => (x.id === id ? n : x)));
 			} else {
