@@ -146,6 +146,10 @@ export function Spotify() {
 					counter = 0;
 				}
 				break;
+			default: {
+				const unknownPhase: never = phase;
+				throw new Error(`unknown spotify phase ${unknownPhase}`);
+			}
 		}
 		return "";
 	});
