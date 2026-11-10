@@ -11,6 +11,7 @@ const ROUTE_DESTINATION_FIELD = 1;
 const ROUTE_METRIC_FIELD = 6;
 const ROUTE_MASK_FIELD = 7;
 const ANY_ADDRESS = "00000000";
+const WHITESPACE = /\s+/u;
 
 interface Sample {
 	iface: string;
@@ -26,7 +27,7 @@ function readLines(path: string): string[] {
 
 function defaultRouteIface(): string | null {
 	const routes = readLines("/proc/net/route")
-		.map((line) => line.trim().split(/\s+/u))
+		.map((line) => line.trim().split(WHITESPACE))
 		.filter(
 			(fields) =>
 				fields[ROUTE_DESTINATION_FIELD] === ANY_ADDRESS &&
@@ -56,7 +57,7 @@ function readSample(): Sample | null {
 		return null;
 	}
 
-	const fields = line.trim().split(/\s+/u);
+	const fields = line.trim().split(WHITESPACE);
 	return {
 		iface,
 		rxBytes: Number.parseInt(fields[RX_BYTES_FIELD], 10),

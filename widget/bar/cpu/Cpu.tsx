@@ -7,6 +7,7 @@ const IOWAIT_FIELD = 4;
 // guest and guest_nice are already part of user and nice
 const COUNTED_FIELDS = 8;
 const MAX_PERCENT = 100;
+const WHITESPACE = /\s+/u;
 
 interface Sample {
 	idle: number;
@@ -16,7 +17,7 @@ interface Sample {
 function readSample(): Sample {
 	const [, contents] = GLib.file_get_contents("/proc/stat");
 	const [cpuLine] = new TextDecoder().decode(contents).split("\n");
-	const [, ...fields] = cpuLine.trim().split(/\s+/u);
+	const [, ...fields] = cpuLine.trim().split(WHITESPACE);
 	const ticks = fields.slice(0, COUNTED_FIELDS).map(Number);
 	return {
 		idle: ticks[IDLE_FIELD] + ticks[IOWAIT_FIELD],
