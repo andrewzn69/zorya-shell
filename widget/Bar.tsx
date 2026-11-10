@@ -1,5 +1,5 @@
 import { config } from "@lib/config";
-import { Astal, Gdk } from "ags/gtk4";
+import { Astal, type Gdk } from "ags/gtk4";
 import app from "ags/gtk4/app";
 import Clock from "./bar/clock/Clock";
 import Cpu from "./bar/cpu/Cpu";

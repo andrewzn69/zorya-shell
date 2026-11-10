@@ -1,5 +1,5 @@
 import GLib from "gi://GLib";
-import { type Config } from "@lib/types";
+import type { Config } from "@lib/types";
 import defaultsRaw from "../defaults.json";
 
 const defaults = defaultsRaw as unknown as Config;

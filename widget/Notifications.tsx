@@ -1,9 +1,9 @@
 import Notifd from "gi://AstalNotifd";
 import GLib from "gi://GLib";
 import { config } from "@lib/config";
-import { type Corner } from "@lib/types";
+import type { Corner } from "@lib/types";
 import { createState, For, onCleanup } from "ags";
-import { Gdk as AGdk, Astal } from "ags/gtk4";
+import { type Gdk as AGdk, Astal } from "ags/gtk4";
 import app from "ags/gtk4/app";
 
 const notifd = Notifd.get_default();
