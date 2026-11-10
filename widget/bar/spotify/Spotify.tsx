@@ -154,6 +154,7 @@ function scroll(scroller: Scroller, maxOffset: number) {
 		if (scroller.index === 0) {
 			shownMs = TITLE_SHOWN_MS;
 		}
+		scroller.offset = 0;
 		startHolding(scroller, shownMs - START_PAUSE_MS);
 	} else if (scroller.index === 0) {
 		bounceTitle(scroller, maxOffset);
