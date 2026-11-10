@@ -100,7 +100,10 @@
         }:
         {
           default = pkgs.mkShell {
-            packages = [ (agsPackage.override { extraPackages = extra; }) ];
+            packages = [
+              (agsPackage.override { extraPackages = extra; })
+              pkgs.biome
+            ];
           };
         }
       );
