@@ -13,20 +13,6 @@ window.Notifications {
 		all: unset;
 	}
 
-	&.critical {
-		border: $notif-border-width solid rgba($notif-critical, 0.4);
-
-		.header {
-			.app-name {
-				color: rgba($notif-critical, 0.8);
-			}
-
-			.app-icon {
-				color: rgba($notif-critical, 0.6);
-			}
-		}
-	}
-
 	.header {
 		padding: 0.5rem;
 		color: rgba($notif-fg, 0.5);
@@ -97,6 +83,20 @@ window.Notifications {
 
 			&:last-child {
 				margin-right: 0;
+			}
+		}
+	}
+
+	&.critical {
+		border: $notif-border-width solid rgba($notif-critical, 0.4);
+
+		.header {
+			.app-name {
+				color: rgba($notif-critical, 0.8);
+			}
+
+			.app-icon {
+				color: rgba($notif-critical, 0.6);
 			}
 		}
 	}
