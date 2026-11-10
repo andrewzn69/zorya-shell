@@ -26,7 +26,7 @@ function readLines(path: string): string[] {
 
 function defaultRouteIface(): string | null {
 	const routes = readLines("/proc/net/route")
-		.map((line) => line.trim().split(/\s+/))
+		.map((line) => line.trim().split(/\s+/u))
 		.filter(
 			(fields) =>
 				fields[ROUTE_DESTINATION_FIELD] === ANY_ADDRESS &&
@@ -53,7 +53,7 @@ function readSample(): Sample | null {
 		return null;
 	}
 
-	const fields = line.trim().split(/\s+/);
+	const fields = line.trim().split(/\s+/u);
 	return {
 		iface,
 		rxBytes: Number.parseInt(fields[RX_BYTES_FIELD], 10),

@@ -15,7 +15,7 @@ interface Sample {
 function readSample(): Sample {
 	const [, contents] = GLib.file_get_contents("/proc/stat");
 	const cpuLine = new TextDecoder().decode(contents).split("\n")[0];
-	const [, ...fields] = cpuLine.trim().split(/\s+/);
+	const [, ...fields] = cpuLine.trim().split(/\s+/u);
 	const ticks = fields.slice(0, COUNTED_FIELDS).map(Number);
 	return {
 		idle: ticks[IDLE_FIELD] + ticks[IOWAIT_FIELD],
