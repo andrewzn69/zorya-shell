@@ -46,9 +46,9 @@ export function Spotify() {
 			case "scrolling": {
 				// Initial wait before scrolling starts
 				if (counter < HOLD_FRAMES_END_INITIAL) {
-					counter++;
+					counter += 1;
 					if (idx === 0) {
-						titleTimer++;
+						titleTimer += 1;
 					}
 					break;
 				}
@@ -64,7 +64,7 @@ export function Spotify() {
 
 				if (idx === 0) {
 					// Title: bounce back and forth until 30s elapsed
-					titleTimer++;
+					titleTimer += 1;
 					if (titleTimer >= HOLD_FRAMES_TITLE) {
 						if (fields.length <= 1) {
 							titleTimer = 0;
@@ -77,7 +77,7 @@ export function Spotify() {
 					}
 
 					if (scrollWait > 0) {
-						scrollWait--;
+						scrollWait -= 1;
 						break;
 					}
 
@@ -111,7 +111,8 @@ export function Spotify() {
 			}
 			case "holding": {
 				const holdFrames = idx === 0 ? HOLD_FRAMES_TITLE : HOLD_FRAMES_META;
-				if (++counter >= holdFrames) {
+				counter += 1;
+				if (counter >= holdFrames) {
 					if (fields.length <= 1) {
 						counter = 0;
 						break;
@@ -123,7 +124,8 @@ export function Spotify() {
 				break;
 			}
 			case "fade-out":
-				if (++counter >= FADE_FRAMES) {
+				counter += 1;
+				if (counter >= FADE_FRAMES) {
 					if (fields.length > 1) {
 						idx = (idx + 1) % fields.length;
 					}
@@ -141,7 +143,8 @@ export function Spotify() {
 				}
 				break;
 			case "fade-in":
-				if (++counter >= FADE_FRAMES) {
+				counter += 1;
+				if (counter >= FADE_FRAMES) {
 					phase = "scrolling";
 					counter = 0;
 				}
