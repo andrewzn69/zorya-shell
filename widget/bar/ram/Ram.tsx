@@ -1,6 +1,6 @@
 import GLib from "gi://GLib";
 import { pollInterval } from "@lib/config";
-import { formatBytes } from "@lib/units";
+import { formatBytes, KIB } from "@lib/units";
 import { SysInfo } from "@widget/SysInfo";
 
 function readRamUsed(): number {
@@ -11,7 +11,7 @@ function readRamUsed(): number {
 			text.match(new RegExp(`${k}:\\s+(\\d+)`, "u"))?.[1] ?? "0",
 			10,
 		);
-	return (get("MemTotal") - get("MemAvailable")) * 1024;
+	return (get("MemTotal") - get("MemAvailable")) * KIB;
 }
 
 export function Ram() {

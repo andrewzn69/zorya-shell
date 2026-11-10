@@ -6,6 +6,7 @@ const IDLE_FIELD = 3;
 const IOWAIT_FIELD = 4;
 // guest and guest_nice are already part of user and nice
 const COUNTED_FIELDS = 8;
+const MAX_PERCENT = 100;
 
 interface Sample {
 	idle: number;
@@ -32,10 +33,10 @@ export function Cpu() {
 		if (previous) {
 			const busy =
 				1 - (current.idle - previous.idle) / (current.total - previous.total);
-			percent = Math.round(busy * 100);
+			percent = Math.round(busy * MAX_PERCENT);
 		}
 		previous = current;
-		return `${Math.max(0, Math.min(100, percent))}%`;
+		return `${Math.max(0, Math.min(MAX_PERCENT, percent))}%`;
 	};
 
 	return (
