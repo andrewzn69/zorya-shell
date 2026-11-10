@@ -27,6 +27,7 @@
 				"useSolidForComponent": "off"
 			},
 			"suspicious": {
+				"noBitwiseOperators": "off",
 				"noUnknownAttribute": "off"
 			}
 		}
