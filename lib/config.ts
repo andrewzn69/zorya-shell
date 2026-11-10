@@ -14,7 +14,7 @@ function deepMerge<T>(base: T, override: unknown): T {
 	if (override === undefined || override === null) {
 		return base;
 	}
-	if (!isPlainObject(base) || !isPlainObject(override)) {
+	if (!(isPlainObject(base) && isPlainObject(override))) {
 		return override as T;
 	}
 	const result: Record<string, unknown> = { ...base };
