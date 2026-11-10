@@ -4,232 +4,263 @@ import { createState } from "ags";
 import { createPoll } from "ags/time";
 
 const FRAME_MS = 16;
-const SCROLL_SPEED = 0.5;
-const HOLD_FRAMES_TITLE = 1875; // ~30s total for title
-const HOLD_FRAMES_META = 312; // ~5s for artist/album
-const HOLD_FRAMES_END_INITIAL = 90; // ~1.5s for first two ends
-const HOLD_FRAMES_END_REPEAT = 312; // ~5s after first full bounce
-const FADE_FRAMES = 45; // ~720ms
+const SCROLL_PX_PER_FRAME = 0.5;
+const START_PAUSE_MS = 1500;
+const RIGHT_END_PAUSE_MS = 1500;
+const LEFT_END_PAUSE_MS = 5000;
+const TITLE_SHOWN_MS = 30_000;
+// only for text that fits, longer text scrolls to its end once instead
+const ARTIST_OR_ALBUM_SHOWN_MS = 5000;
+const FADE_MS = 720;
 
-type Phase = "scrolling" | "holding" | "fade-out" | "fade-in";
+type Phase = "waiting" | "scrolling" | "holding" | "fading-out" | "fading-in";
 
-export function Spotify() {
-	const spotify = Mpris.Player.new("spotify");
-	const [isVisible, setIsVisible] = createState(false);
+interface Scroller {
+	label: Gtk.Label;
+	window: Gtk.ScrolledWindow;
+	texts: string[];
+	index: number;
+	phase: Phase;
+	phaseMs: number;
+	holdMs: number;
+	offset: number;
+	scrollingBack: boolean;
+	remainingPauseMs: number;
+	titleShownMs: number;
+}
 
+function createScroller(): Scroller {
 	const label = new Gtk.Label();
 	label.css_classes = ["spotify-track"];
 	label.single_line_mode = true;
 
-	const sw = new Gtk.ScrolledWindow();
-	sw.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.NEVER);
-	sw.hexpand = true;
-	sw.set_child(label);
+	const window = new Gtk.ScrolledWindow();
+	window.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.NEVER);
+	window.hexpand = true;
+	window.set_child(label);
 
-	let containerBox: Gtk.Box | null = null;
-	let fields: string[] = [];
-	let idx = 0;
-	let phase: Phase = "scrolling";
-	let pixelOffset = 0;
-	let counter = 0;
-	let scrollDir = 1; // 1 = forward, -1 = backward (title bounce only)
-	let scrollWait = 0; // frames to wait at bounce end
-	let titleTimer = 0; // total frames elapsed for current title display
+	return {
+		label,
+		window,
+		texts: [],
+		index: 0,
+		phase: "waiting",
+		phaseMs: 0,
+		holdMs: 0,
+		offset: 0,
+		scrollingBack: false,
+		remainingPauseMs: 0,
+		titleShownMs: 0,
+	};
+}
+
+function startPhase(scroller: Scroller, phase: Phase) {
+	scroller.phase = phase;
+	scroller.phaseMs = 0;
+}
+
+function startHolding(scroller: Scroller, ms: number) {
+	startPhase(scroller, "holding");
+	scroller.holdMs = ms;
+}
+
+function startFadeOut(scroller: Scroller) {
+	scroller.label.css_classes = ["spotify-track", "faded"];
+	startPhase(scroller, "fading-out");
+}
+
+function showText(scroller: Scroller, index: number) {
+	scroller.index = index;
+	scroller.offset = 0;
+	scroller.label.label = scroller.texts[index] ?? "";
+	scroller.label.css_classes = ["spotify-track"];
+	if (index === 0) {
+		scroller.titleShownMs = 0;
+		scroller.scrollingBack = false;
+		scroller.remainingPauseMs = 0;
+	}
+}
+
+function restart(scroller: Scroller) {
+	showText(scroller, 0);
+	startPhase(scroller, "waiting");
+	const adjustment = scroller.window.get_hadjustment();
+	if (adjustment) {
+		adjustment.value = 0;
+	}
+}
+
+function setTexts(scroller: Scroller, texts: string[]) {
+	const titleChanged = texts[0] !== scroller.texts[0];
+	scroller.texts = texts;
+	if (titleChanged) {
+		restart(scroller);
+	}
+}
+
+function wait(scroller: Scroller) {
+	scroller.phaseMs += FRAME_MS;
+	if (scroller.index === 0) {
+		scroller.titleShownMs += FRAME_MS;
+	}
+	if (scroller.phaseMs >= START_PAUSE_MS) {
+		startPhase(scroller, "scrolling");
+	}
+}
+
+function bounceTitle(scroller: Scroller, maxOffset: number) {
+	scroller.titleShownMs += FRAME_MS;
+	if (scroller.titleShownMs >= TITLE_SHOWN_MS && scroller.texts.length > 1) {
+		startFadeOut(scroller);
+		return;
+	}
+	if (scroller.remainingPauseMs > 0) {
+		scroller.remainingPauseMs -= FRAME_MS;
+		return;
+	}
+
+	if (scroller.scrollingBack) {
+		scroller.offset -= SCROLL_PX_PER_FRAME;
+	} else {
+		scroller.offset += SCROLL_PX_PER_FRAME;
+	}
+
+	if (scroller.offset >= maxOffset) {
+		scroller.offset = maxOffset;
+		scroller.scrollingBack = true;
+		scroller.remainingPauseMs = RIGHT_END_PAUSE_MS;
+	} else if (scroller.offset <= 0) {
+		scroller.offset = 0;
+		scroller.scrollingBack = false;
+		scroller.remainingPauseMs = LEFT_END_PAUSE_MS;
+	}
+}
+
+function scrollToEnd(scroller: Scroller, maxOffset: number) {
+	scroller.offset += SCROLL_PX_PER_FRAME;
+	if (scroller.offset >= maxOffset) {
+		scroller.offset = maxOffset;
+		startHolding(scroller, RIGHT_END_PAUSE_MS);
+	}
+}
+
+function scroll(scroller: Scroller, maxOffset: number) {
+	if (maxOffset <= 0) {
+		let shownMs = ARTIST_OR_ALBUM_SHOWN_MS;
+		if (scroller.index === 0) {
+			shownMs = TITLE_SHOWN_MS;
+		}
+		startHolding(scroller, shownMs - START_PAUSE_MS);
+	} else if (scroller.index === 0) {
+		bounceTitle(scroller, maxOffset);
+	} else {
+		scrollToEnd(scroller, maxOffset);
+	}
+}
+
+function hold(scroller: Scroller) {
+	scroller.phaseMs += FRAME_MS;
+	if (scroller.phaseMs >= scroller.holdMs && scroller.texts.length > 1) {
+		startFadeOut(scroller);
+	}
+}
+
+function fadeOut(scroller: Scroller) {
+	scroller.phaseMs += FRAME_MS;
+	if (scroller.phaseMs >= FADE_MS) {
+		showText(scroller, (scroller.index + 1) % scroller.texts.length);
+		startPhase(scroller, "fading-in");
+	}
+}
+
+function fadeIn(scroller: Scroller) {
+	scroller.phaseMs += FRAME_MS;
+	if (scroller.phaseMs >= FADE_MS) {
+		startPhase(scroller, "waiting");
+	}
+}
+
+function onFrame(scroller: Scroller) {
+	const adjustment = scroller.window.get_hadjustment();
+	if (!adjustment || scroller.texts.length === 0 || adjustment.page_size <= 0) {
+		return;
+	}
+	const maxOffset = adjustment.upper - adjustment.page_size;
+
+	switch (scroller.phase) {
+		case "waiting":
+			wait(scroller);
+			break;
+		case "scrolling":
+			scroll(scroller, maxOffset);
+			break;
+		case "holding":
+			hold(scroller);
+			break;
+		case "fading-out":
+			fadeOut(scroller);
+			break;
+		case "fading-in":
+			fadeIn(scroller);
+			break;
+		default: {
+			const unknownPhase: never = scroller.phase;
+			throw new Error(`unknown spotify phase ${unknownPhase}`);
+		}
+	}
+	adjustment.value = scroller.offset;
+}
+
+function trackTexts(player: Mpris.Player): string[] {
+	if (player.playback_status !== Mpris.PlaybackStatus.PLAYING) {
+		return ["Paused"];
+	}
+	const texts = [player.title, player.artist, player.album] as string[];
+	return texts.filter(Boolean);
+}
+
+function containerClass(isPlaying: boolean) {
+	if (isPlaying) {
+		return "spotify-container playing";
+	}
+	return "spotify-container";
+}
+
+export function Spotify() {
+	const player = Mpris.Player.new("spotify");
+	const [isVisible, setIsVisible] = createState(false);
+	const [isPlaying, setIsPlaying] = createState(false);
+	const scroller = createScroller();
 
 	const _tick = createPoll("", FRAME_MS, () => {
-		const adj = sw.get_hadjustment();
-		if (!adj || fields.length === 0 || adj.page_size <= 0) {
-			return "";
-		}
-
-		switch (phase) {
-			case "scrolling": {
-				// Initial wait before scrolling starts
-				if (counter < HOLD_FRAMES_END_INITIAL) {
-					counter += 1;
-					if (idx === 0) {
-						titleTimer += 1;
-					}
-					break;
-				}
-
-				const maxScroll = adj.upper - adj.page_size;
-
-				if (maxScroll <= 0) {
-					// Text fits — go to hold with pre-scroll time already counted
-					phase = "holding";
-					counter = HOLD_FRAMES_END_INITIAL;
-					break;
-				}
-
-				if (idx === 0) {
-					// Title: bounce back and forth until 30s elapsed
-					titleTimer += 1;
-					if (titleTimer >= HOLD_FRAMES_TITLE) {
-						if (fields.length <= 1) {
-							titleTimer = 0;
-							break;
-						}
-						label.css_classes = ["spotify-track", "faded"];
-						phase = "fade-out";
-						counter = 0;
-						break;
-					}
-
-					if (scrollWait > 0) {
-						scrollWait -= 1;
-						break;
-					}
-
-					pixelOffset += SCROLL_SPEED * scrollDir;
-					if (pixelOffset >= maxScroll) {
-						pixelOffset = maxScroll;
-						adj.value = pixelOffset;
-						scrollDir = -1;
-						scrollWait = HOLD_FRAMES_END_INITIAL; // right end: always 1.5s
-					} else if (pixelOffset <= 0) {
-						pixelOffset = 0;
-						adj.value = 0;
-						scrollDir = 1;
-						scrollWait = HOLD_FRAMES_END_REPEAT; // left end: always 5s
-					} else {
-						adj.value = pixelOffset;
-					}
-				} else {
-					// Artist/album: scroll to end then fade
-					pixelOffset += SCROLL_SPEED;
-					if (pixelOffset >= maxScroll) {
-						pixelOffset = maxScroll;
-						adj.value = pixelOffset;
-						phase = "holding";
-						counter = HOLD_FRAMES_META - HOLD_FRAMES_END_INITIAL;
-					} else {
-						adj.value = pixelOffset;
-					}
-				}
-				break;
-			}
-			case "holding": {
-				let holdFrames = HOLD_FRAMES_META;
-				if (idx === 0) {
-					holdFrames = HOLD_FRAMES_TITLE;
-				}
-				counter += 1;
-				if (counter >= holdFrames) {
-					if (fields.length <= 1) {
-						counter = 0;
-						break;
-					}
-					label.css_classes = ["spotify-track", "faded"];
-					phase = "fade-out";
-					counter = 0;
-				}
-				break;
-			}
-			case "fade-out":
-				counter += 1;
-				if (counter >= FADE_FRAMES) {
-					if (fields.length > 1) {
-						idx = (idx + 1) % fields.length;
-					}
-					if (idx === 0) {
-						titleTimer = 0;
-						scrollDir = 1;
-						scrollWait = 0;
-					}
-					label.label = fields[idx] ?? "";
-					pixelOffset = 0;
-					adj.value = 0;
-					label.css_classes = ["spotify-track"];
-					phase = "fade-in";
-					counter = 0;
-				}
-				break;
-			case "fade-in":
-				counter += 1;
-				if (counter >= FADE_FRAMES) {
-					phase = "scrolling";
-					counter = 0;
-				}
-				break;
-			default: {
-				const unknownPhase: never = phase;
-				throw new Error(`unknown spotify phase ${unknownPhase}`);
-			}
-		}
+		onFrame(scroller);
 		return "";
 	});
 
-	const reset = (i: number) => {
-		idx = i;
-		phase = "scrolling";
-		pixelOffset = 0;
-		counter = 0;
-		scrollDir = 1;
-		scrollWait = 0;
-		titleTimer = 0;
-		label.css_classes = ["spotify-track"];
-		label.label = fields[i] ?? "";
-		const adj = sw.get_hadjustment();
-		if (adj) {
-			adj.value = 0;
-		}
-	};
-
-	const setPlaying = (playing: boolean) => {
-		if (containerBox) {
-			if (playing) {
-				containerBox.css_classes = ["spotify-container", "playing"];
-			} else {
-				containerBox.css_classes = ["spotify-container"];
-			}
-		}
-	};
-
 	const update = () => {
-		if (!spotify.available) {
-			setIsVisible(false);
-			return;
-		}
-		setIsVisible(true);
-
-		if (spotify.playback_status === Mpris.PlaybackStatus.PLAYING) {
-			const newFields = (
-				[spotify.title, spotify.artist, spotify.album] as string[]
-			).filter(Boolean);
-
-			const titleChanged = newFields[0] !== fields[0];
-			fields = newFields;
-			setPlaying(true);
-			if (titleChanged) {
-				reset(0);
-			}
-		} else {
-			fields = ["Paused"];
-			setPlaying(false);
-			reset(0);
+		setIsVisible(player.available);
+		if (player.available) {
+			setIsPlaying(player.playback_status === Mpris.PlaybackStatus.PLAYING);
+			setTexts(scroller, trackTexts(player));
 		}
 	};
 
 	update();
-	spotify.connect("notify::title", update);
-	spotify.connect("notify::artist", update);
-	spotify.connect("notify::album", update);
-	spotify.connect("notify::playback-status", update);
-	spotify.connect("notify::available", update);
+	player.connect("notify::title", update);
+	player.connect("notify::artist", update);
+	player.connect("notify::album", update);
+	player.connect("notify::playback-status", update);
+	player.connect("notify::available", update);
 
 	return (
 		<box
-			class="spotify-container"
+			class={isPlaying(containerClass)}
 			halign={Gtk.Align.CENTER}
-			onRealize={(self: Gtk.Box) => {
-				containerBox = self;
-				self.append(sw);
-			}}
 			visible={isVisible}
 		>
 			{/* hidden label reads _tick, activating the createPoll timer */}
 			<label label={_tick} visible={false} />
+			{scroller.window}
 		</box>
 	);
 }
