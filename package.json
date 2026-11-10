@@ -5,9 +5,5 @@
 	"dependencies": {
 		"ags": "*",
 		"gnim": "*"
-	},
-	"prettier": {
-		"semi": false,
-		"tabWidth": 2
 	}
 }
