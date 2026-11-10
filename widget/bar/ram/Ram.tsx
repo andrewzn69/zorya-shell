@@ -15,7 +15,7 @@ export default function Ram() {
 	return (
 		<SysInfo
 			class="ram-container"
-			icon={"  "}
+			icon="  "
 			initial="0.0 GiB"
 			interval={pollInterval("ram")}
 			poll={() => formatBytes(readRamUsed(), 1)}
