@@ -49,8 +49,8 @@ function readSample(): Sample | null {
 }
 
 export default function Network() {
-	// the counters are totals, so the first poll needs an earlier sample to subtract
-	let previous = readSample()
+	// a rate needs two samples a full interval apart, so the first poll only takes one
+	let previous: Sample | null = null
 
 	const poll = () => {
 		const current = readSample()
