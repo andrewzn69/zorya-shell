@@ -100,7 +100,7 @@
         }:
         {
           default = pkgs.mkShell {
-            buildInputs = [ (agsPackage.override { extraPackages = extra; }) ];
+            packages = [ (agsPackage.override { extraPackages = extra; }) ];
           };
         }
       );
