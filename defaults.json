@@ -27,9 +27,7 @@
 		"layouts": {
 			"*": {
 				"left": [],
-				"center": [
-					"workspaces"
-				],
+				"center": ["workspaces"],
 				"right": []
 			}
 		},

@@ -1,3 +1,5 @@
 window.Bar {
-  .cpu-container { @include sysinfo-box; }
+	.cpu-container {
+		@include sysinfo-box;
+	}
 }

@@ -1,13 +1,13 @@
-@import 'styles/sysinfo-common';
-@import 'widget/bar/workspaces/workspaces';
-@import 'widget/bar/clock/clock';
-@import 'widget/bar/spotify/spotify';
-@import 'widget/bar/cpu/cpu';
-@import 'widget/bar/ram/ram';
-@import 'widget/bar/disk/disk';
-@import 'widget/bar/network/network';
-@import 'styles/notifications';
+@import "styles/sysinfo-common";
+@import "widget/bar/workspaces/workspaces";
+@import "widget/bar/clock/clock";
+@import "widget/bar/spotify/spotify";
+@import "widget/bar/cpu/cpu";
+@import "widget/bar/ram/ram";
+@import "widget/bar/disk/disk";
+@import "widget/bar/network/network";
+@import "styles/notifications";
 
 window.Bar {
-  background-color: transparent;
+	background-color: transparent;
 }

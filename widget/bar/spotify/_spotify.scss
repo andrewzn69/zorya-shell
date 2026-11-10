@@ -1,35 +1,34 @@
 window.Bar {
-  .spotify-container {
-    background-color: $bar-bg;
-    border: $bar-border-width solid $bar-border;
-    margin: $bar-margin;
-    padding: $bar-padding $bar-padding-large;
-    border-radius: 0px;
-    color: $bar-text;
-    font-family: $bar-font-family;
-    font-size: $bar-font-size;
-    min-width: 90px;
-    transition: min-width 0.4s cubic-bezier(0.1, -0.1, 0.1, 1);
+	.spotify-container {
+		background-color: $bar-bg;
+		border: $bar-border-width solid $bar-border;
+		margin: $bar-margin;
+		padding: $bar-padding $bar-padding-large;
+		border-radius: 0px;
+		color: $bar-text;
+		font-family: $bar-font-family;
+		font-size: $bar-font-size;
+		min-width: 90px;
+		transition: min-width 0.4s cubic-bezier(0.1, -0.1, 0.1, 1);
 
-    &.playing {
-      min-width: 150px;
-      transition: min-width 0.5s cubic-bezier(0.1, 1.0, 0.1, 1);
-    }
-  }
+		&.playing {
+			min-width: 150px;
+			transition: min-width 0.5s cubic-bezier(0.1, 1, 0.1, 1);
+		}
+	}
 
+	.spotify-track {
+		font-weight: bold;
+		transition: opacity 0.7s ease;
 
-  .spotify-track {
-    font-weight: bold;
-    transition: opacity 0.7s ease;
+		&.faded {
+			opacity: 0;
+		}
+	}
 
-    &.faded {
-      opacity: 0;
-    }
-  }
-
-  .spotify-container scrollbar {
-    opacity: 0;
-    min-width: 0;
-    min-height: 0;
-  }
+	.spotify-container scrollbar {
+		opacity: 0;
+		min-width: 0;
+		min-height: 0;
+	}
 }
