@@ -68,8 +68,8 @@ export default function Network() {
 
 	const poll = () => {
 		const current = readSample();
-		let rxRate = 0,
-			txRate = 0;
+		let rxRate = 0;
+		let txRate = 0;
 		// counters of two different interfaces can't be subtracted
 		if (previous && current && previous.iface === current.iface) {
 			const seconds =
