@@ -1,5 +1,5 @@
-import { createPoll } from "ags/time";
 import { pollInterval } from "@lib/config";
+import { createPoll } from "ags/time";
 
 export default function Clock() {
 	const time = createPoll("", pollInterval("clock"), () => {

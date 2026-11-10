@@ -3,11 +3,11 @@ window.Notifications {
 }
 
 .Notification {
-	border-radius: $notif-radius;
-	background-color: $notif-bg;
 	margin: 0.5rem 1rem 0.5rem 1rem;
-	box-shadow: 2px 3px 8px 0 rgba(black, 0.4);
+	background-color: $notif-bg;
 	border: $notif-border-width solid $notif-border;
+	border-radius: $notif-radius;
+	box-shadow: 2px 3px 8px 0 rgba(black, 0.4);
 
 	.notif-click {
 		all: unset;
@@ -37,8 +37,8 @@ window.Notifications {
 
 		.app-name {
 			margin-right: 0.3rem;
-			font-weight: bold;
 			font-size: $notif-font-size-app;
+			font-weight: bold;
 
 			&:first-child {
 				margin-left: 0.4rem;
@@ -74,13 +74,13 @@ window.Notifications {
 		}
 
 		.image {
-			border: 1px solid rgba($notif-fg, 0.02);
-			margin-right: 0.5rem;
-			border-radius: 9px;
 			min-width: 100px;
 			min-height: 100px;
-			background-size: cover;
+			margin-right: 0.5rem;
 			background-position: center;
+			background-size: cover;
+			border: 1px solid rgba($notif-fg, 0.02);
+			border-radius: 9px;
 		}
 	}
 

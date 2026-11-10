@@ -1,13 +1,13 @@
-import app from "ags/gtk4/app";
+import { config } from "@lib/config";
 import { Astal, Gdk } from "ags/gtk4";
-import Workspaces from "./bar/workspaces/Workspaces";
-import Spotify from "./bar/spotify/Spotify";
+import app from "ags/gtk4/app";
 import Clock from "./bar/clock/Clock";
 import Cpu from "./bar/cpu/Cpu";
-import Ram from "./bar/ram/Ram";
 import Disk from "./bar/disk/Disk";
 import Network from "./bar/network/Network";
-import { config } from "@lib/config";
+import Ram from "./bar/ram/Ram";
+import Spotify from "./bar/spotify/Spotify";
+import Workspaces from "./bar/workspaces/Workspaces";
 
 export default function Bar(gdkmonitor: Gdk.Monitor) {
 	const { TOP, LEFT, RIGHT } = Astal.WindowAnchor;
@@ -40,13 +40,13 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 
 	return (
 		<window
-			visible
-			name={`bar-${connector}`}
-			class="Bar"
-			gdkmonitor={gdkmonitor}
-			exclusivity={Astal.Exclusivity.EXCLUSIVE}
 			anchor={TOP | LEFT | RIGHT}
 			application={app}
+			class="Bar"
+			exclusivity={Astal.Exclusivity.EXCLUSIVE}
+			gdkmonitor={gdkmonitor}
+			name={`bar-${connector}`}
+			visible
 		>
 			<centerbox>
 				<box $type="start">{renderSlot(layout.left)}</box>

@@ -1,7 +1,7 @@
 import Mpris from "gi://AstalMpris";
 import Gtk from "gi://Gtk?version=4.0";
-import { createPoll } from "ags/time";
 import { createState } from "ags";
+import { createPoll } from "ags/time";
 
 const FRAME_MS = 16;
 const SCROLL_SPEED = 0.5;
@@ -204,15 +204,15 @@ export default function Spotify() {
 	return (
 		<box
 			class="spotify-container"
-			visible={isVisible}
 			halign={Gtk.Align.CENTER}
 			onRealize={(self: Gtk.Box) => {
 				containerBox = self;
 				self.append(sw);
 			}}
+			visible={isVisible}
 		>
 			{/* hidden label reads _tick, activating the createPoll timer */}
-			<label visible={false} label={_tick} />
+			<label label={_tick} visible={false} />
 		</box>
 	);
 }

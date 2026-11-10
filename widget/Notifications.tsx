@@ -1,10 +1,10 @@
 import Notifd from "gi://AstalNotifd";
 import GLib from "gi://GLib";
-import { Astal, Gdk as AGdk } from "ags/gtk4";
-import app from "ags/gtk4/app";
-import { For, createState, onCleanup } from "ags";
 import { config } from "@lib/config";
 import { type Corner } from "@lib/types";
+import { createState, For, onCleanup } from "ags";
+import { Gdk as AGdk, Astal } from "ags/gtk4";
+import app from "ags/gtk4/app";
 
 const notifd = Notifd.get_default();
 const cfg = config.notifications;
@@ -60,10 +60,10 @@ function Notification({
 						<label
 							class="app-name"
 							hexpand
-							xalign={0}
 							label={n.appName || "Unknown"}
+							xalign={0}
 						/>
-						<label class="time" xalign={1} label={time(n.time)} />
+						<label class="time" label={time(n.time)} xalign={1} />
 					</box>
 					<box class="separator" />
 					<box class="content">
@@ -71,15 +71,15 @@ function Notification({
 							<image class="image" file={n.image} />
 						)}
 						<box orientation={VERTICAL}>
-							<label class="summary" xalign={0} label={n.summary} />
+							<label class="summary" label={n.summary} xalign={0} />
 							{n.body && (
 								<label
 									class="body"
-									xalign={0}
-									wrap
-									useMarkup
-									maxWidthChars={cfg.max_chars}
 									label={n.body}
+									maxWidthChars={cfg.max_chars}
+									useMarkup
+									wrap
+									xalign={0}
 								/>
 							)}
 						</box>
@@ -134,14 +134,14 @@ export default function Notifications(monitor: AGdk.Monitor) {
 
 	return (
 		<window
-			visible={notifications((ns) => ns.length > 0)}
-			name="notifications"
-			class="Notifications"
-			gdkmonitor={monitor}
 			anchor={CORNER[cfg.corner].anchor}
-			layer={Astal.Layer.OVERLAY}
-			exclusivity={Astal.Exclusivity.NORMAL}
 			application={app}
+			class="Notifications"
+			exclusivity={Astal.Exclusivity.NORMAL}
+			gdkmonitor={monitor}
+			layer={Astal.Layer.OVERLAY}
+			name="notifications"
+			visible={notifications((ns) => ns.length > 0)}
 		>
 			<box
 				orientation={VERTICAL}
@@ -150,7 +150,7 @@ export default function Notifications(monitor: AGdk.Monitor) {
 			>
 				<For each={notifications}>
 					{(n: Notifd.Notification) => (
-						<Notification n={n} dismiss={() => dismiss(n)} />
+						<Notification dismiss={() => dismiss(n)} n={n} />
 					)}
 				</For>
 			</box>

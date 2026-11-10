@@ -1,7 +1,7 @@
 import GLib from "gi://GLib";
-import SysInfo from "@widget/SysInfo";
-import { formatBytes } from "@lib/units";
 import { pollInterval } from "@lib/config";
+import { formatBytes } from "@lib/units";
+import SysInfo from "@widget/SysInfo";
 
 const RX_BYTES_FIELD = 1;
 const TX_BYTES_FIELD = 9;

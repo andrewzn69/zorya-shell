@@ -1,5 +1,5 @@
-import { createPoll } from "ags/time";
 import { createState } from "ags";
+import { createPoll } from "ags/time";
 
 interface SysInfoProps {
 	class: string; // container class for the box
@@ -26,13 +26,13 @@ export default function SysInfo({
 
 	return (
 		<box class={cls}>
-			<label visible={false} label={_tick} />
+			<label label={_tick} visible={false} />
 			{icon ? [<label class="sysinfo-icon" label={icon} />] : []}
 			<label
 				class="sysinfo-value"
 				label={val}
-				widthChars={valueWidth ?? -1}
 				maxWidthChars={valueWidth ?? -1}
+				widthChars={valueWidth ?? -1}
 			/>
 		</box>
 	);

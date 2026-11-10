@@ -1,6 +1,6 @@
 import GLib from "gi://GLib";
-import SysInfo from "@widget/SysInfo";
 import { pollInterval } from "@lib/config";
+import SysInfo from "@widget/SysInfo";
 
 const IDLE_FIELD = 3;
 const IOWAIT_FIELD = 4;
@@ -41,8 +41,8 @@ export default function Cpu() {
 	return (
 		<SysInfo
 			class="cpu-container"
-			initial="0%"
 			icon=" "
+			initial="0%"
 			interval={pollInterval("cpu")}
 			poll={poll}
 		/>
