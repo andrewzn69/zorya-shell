@@ -7,7 +7,7 @@ function readRamUsed(): number {
 	const [, b] = GLib.file_get_contents("/proc/meminfo");
 	const text = new TextDecoder().decode(b);
 	const get = (k: string) =>
-		Number.parseInt(text.match(new RegExp(k + ":\\s+(\\d+)"))?.[1] ?? "0");
+		Number.parseInt(text.match(new RegExp(k + ":\\s+(\\d+)"))?.[1] ?? "0", 10);
 	return (get("MemTotal") - get("MemAvailable")) * 1024;
 }
 

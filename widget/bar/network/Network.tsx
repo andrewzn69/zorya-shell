@@ -34,8 +34,8 @@ function defaultRouteIface(): string | null {
 		)
 		.sort(
 			(a, b) =>
-				Number.parseInt(a[ROUTE_METRIC_FIELD]) -
-				Number.parseInt(b[ROUTE_METRIC_FIELD]),
+				Number.parseInt(a[ROUTE_METRIC_FIELD], 10) -
+				Number.parseInt(b[ROUTE_METRIC_FIELD], 10),
 		);
 	return routes.length > 0 ? routes[0][ROUTE_IFACE_FIELD] : null;
 }
@@ -56,8 +56,8 @@ function readSample(): Sample | null {
 	const fields = line.trim().split(/\s+/);
 	return {
 		iface,
-		rxBytes: Number.parseInt(fields[RX_BYTES_FIELD]),
-		txBytes: Number.parseInt(fields[TX_BYTES_FIELD]),
+		rxBytes: Number.parseInt(fields[RX_BYTES_FIELD], 10),
+		txBytes: Number.parseInt(fields[TX_BYTES_FIELD], 10),
 		monotonicTimeUs: GLib.get_monotonic_time(),
 	};
 }
