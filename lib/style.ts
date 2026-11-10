@@ -68,7 +68,10 @@ export function loadStyle(config: Config): string {
 	);
 
 	if (exitStatus !== 0) {
-		const err = stderr ? decoder.decode(stderr) : "unknown error";
+		let err = "unknown error";
+		if (stderr) {
+			err = decoder.decode(stderr);
+		}
 		throw new Error(`sass failed (exit ${exitStatus}):\n${err}`);
 	}
 

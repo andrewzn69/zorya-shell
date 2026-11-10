@@ -20,9 +20,16 @@ function WorkspaceButton({ wsId }: { wsId: number }) {
 		const isEmpty = !existingWs || existingWs.get_clients().length === 0;
 		const isActive = focused?.get_id() === wsId;
 
-		setClasses(
-			`workspace ${isActive ? "active" : ""} ${isEmpty ? "empty" : "occupied"}`,
-		);
+		const classNames = ["workspace"];
+		if (isActive) {
+			classNames.push("active");
+		}
+		if (isEmpty) {
+			classNames.push("empty");
+		} else {
+			classNames.push("occupied");
+		}
+		setClasses(classNames.join(" "));
 	};
 
 	updateClasses();

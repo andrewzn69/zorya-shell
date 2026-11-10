@@ -110,7 +110,10 @@ export function Spotify() {
 				break;
 			}
 			case "holding": {
-				const holdFrames = idx === 0 ? HOLD_FRAMES_TITLE : HOLD_FRAMES_META;
+				let holdFrames = HOLD_FRAMES_META;
+				if (idx === 0) {
+					holdFrames = HOLD_FRAMES_TITLE;
+				}
 				counter += 1;
 				if (counter >= holdFrames) {
 					if (fields.length <= 1) {
@@ -175,9 +178,11 @@ export function Spotify() {
 
 	const setPlaying = (playing: boolean) => {
 		if (containerBox) {
-			containerBox.css_classes = playing
-				? ["spotify-container", "playing"]
-				: ["spotify-container"];
+			if (playing) {
+				containerBox.css_classes = ["spotify-container", "playing"];
+			} else {
+				containerBox.css_classes = ["spotify-container"];
+			}
 		}
 	};
 

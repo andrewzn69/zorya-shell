@@ -121,7 +121,14 @@ export function Notifications(monitor: AGdk.Monitor) {
 				return;
 			}
 			if (replaced && notifications.get().some((x) => x.id === id)) {
-				setNotifications((ns) => ns.map((x) => (x.id === id ? n : x)));
+				setNotifications((ns) =>
+					ns.map((x) => {
+						if (x.id === id) {
+							return n;
+						}
+						return x;
+					}),
+				);
 			} else {
 				setNotifications((ns) => [n, ...ns]);
 			}

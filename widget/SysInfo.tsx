@@ -27,7 +27,7 @@ export function SysInfo({
 	return (
 		<box class={cls}>
 			<label label={_tick} visible={false} />
-			{icon ? [<label class="sysinfo-icon" label={icon} />] : []}
+			<label class="sysinfo-icon" label={icon ?? ""} visible={Boolean(icon)} />
 			<label
 				class="sysinfo-value"
 				label={val}

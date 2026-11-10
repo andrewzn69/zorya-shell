@@ -37,7 +37,10 @@ function defaultRouteIface(): string | null {
 				Number.parseInt(a[ROUTE_METRIC_FIELD], 10) -
 				Number.parseInt(b[ROUTE_METRIC_FIELD], 10),
 		);
-	return routes.length > 0 ? routes[0][ROUTE_IFACE_FIELD] : null;
+	if (routes.length === 0) {
+		return null;
+	}
+	return routes[0][ROUTE_IFACE_FIELD];
 }
 
 function readSample(): Sample | null {
