@@ -73,7 +73,7 @@ function Notification({
 					</box>
 					<box class="separator" />
 					<box class="content">
-						{n.image && fileExists(n.image) && (
+						{Boolean(n.image) && fileExists(n.image) && (
 							<image class="image" file={n.image} />
 						)}
 						<box orientation={VERTICAL}>
