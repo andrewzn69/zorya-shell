@@ -11,12 +11,7 @@ const HOLD_FRAMES_END_INITIAL = 90; // ~1.5s for first two ends
 const HOLD_FRAMES_END_REPEAT = 312; // ~5s after first full bounce
 const FADE_FRAMES = 45; // ~720ms
 
-const enum Phase {
-	SCROLLING,
-	HOLDING,
-	FADE_OUT,
-	FADE_IN,
-}
+type Phase = "scrolling" | "holding" | "fade-out" | "fade-in";
 
 export default function Spotify() {
 	const spotify = Mpris.Player.new("spotify");
@@ -34,7 +29,7 @@ export default function Spotify() {
 	let containerBox: Gtk.Box | null = null;
 	let fields: string[] = [];
 	let idx = 0;
-	let phase = Phase.SCROLLING;
+	let phase: Phase = "scrolling";
 	let pixelOffset = 0;
 	let counter = 0;
 	let scrollDir = 1; // 1 = forward, -1 = backward (title bounce only)
@@ -48,7 +43,7 @@ export default function Spotify() {
 		}
 
 		switch (phase) {
-			case Phase.SCROLLING: {
+			case "scrolling": {
 				// Initial wait before scrolling starts
 				if (counter < HOLD_FRAMES_END_INITIAL) {
 					counter++;
@@ -62,7 +57,7 @@ export default function Spotify() {
 
 				if (maxScroll <= 0) {
 					// Text fits — go to hold with pre-scroll time already counted
-					phase = Phase.HOLDING;
+					phase = "holding";
 					counter = HOLD_FRAMES_END_INITIAL;
 					break;
 				}
@@ -76,7 +71,7 @@ export default function Spotify() {
 							break;
 						}
 						label.css_classes = ["spotify-track", "faded"];
-						phase = Phase.FADE_OUT;
+						phase = "fade-out";
 						counter = 0;
 						break;
 					}
@@ -106,7 +101,7 @@ export default function Spotify() {
 					if (pixelOffset >= maxScroll) {
 						pixelOffset = maxScroll;
 						adj.value = pixelOffset;
-						phase = Phase.HOLDING;
+						phase = "holding";
 						counter = HOLD_FRAMES_META - HOLD_FRAMES_END_INITIAL;
 					} else {
 						adj.value = pixelOffset;
@@ -114,7 +109,7 @@ export default function Spotify() {
 				}
 				break;
 			}
-			case Phase.HOLDING: {
+			case "holding": {
 				const holdFrames = idx === 0 ? HOLD_FRAMES_TITLE : HOLD_FRAMES_META;
 				if (++counter >= holdFrames) {
 					if (fields.length <= 1) {
@@ -122,12 +117,12 @@ export default function Spotify() {
 						break;
 					}
 					label.css_classes = ["spotify-track", "faded"];
-					phase = Phase.FADE_OUT;
+					phase = "fade-out";
 					counter = 0;
 				}
 				break;
 			}
-			case Phase.FADE_OUT:
+			case "fade-out":
 				if (++counter >= FADE_FRAMES) {
 					if (fields.length > 1) {
 						idx = (idx + 1) % fields.length;
@@ -141,13 +136,13 @@ export default function Spotify() {
 					pixelOffset = 0;
 					adj.value = 0;
 					label.css_classes = ["spotify-track"];
-					phase = Phase.FADE_IN;
+					phase = "fade-in";
 					counter = 0;
 				}
 				break;
-			case Phase.FADE_IN:
+			case "fade-in":
 				if (++counter >= FADE_FRAMES) {
-					phase = Phase.SCROLLING;
+					phase = "scrolling";
 					counter = 0;
 				}
 				break;
@@ -157,7 +152,7 @@ export default function Spotify() {
 
 	const reset = (i: number) => {
 		idx = i;
-		phase = Phase.SCROLLING;
+		phase = "scrolling";
 		pixelOffset = 0;
 		counter = 0;
 		scrollDir = 1;
