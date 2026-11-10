@@ -55,7 +55,7 @@ export default function Workspaces({
 
 	const assignedWorkspaces = workspaceRules
 		.filter((rule) => rule.monitor === monitorConnector)
-		.map((rule) => parseInt(rule.workspaceString))
+		.map((rule) => Number.parseInt(rule.workspaceString))
 		.sort((a, b) => a - b);
 
 	return (
