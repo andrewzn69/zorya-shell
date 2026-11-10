@@ -23,7 +23,7 @@ const CORNER: Record<Corner, { anchor: number; valign: number }> = {
 };
 
 function time(unix: number, format = "%H:%M") {
-	return GLib.DateTime.new_from_unix_local(unix).format(format)!;
+	return GLib.DateTime.new_from_unix_local(unix)?.format(format) ?? "";
 }
 
 function fileExists(path: string) {
