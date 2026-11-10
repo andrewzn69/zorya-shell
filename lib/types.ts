@@ -18,8 +18,8 @@ export interface Fonts {
 export interface Spacing {
 	margin: number;
 	padding: number;
-	border_width: number;
-	border_radius: number;
+	borderWidth: number;
+	borderRadius: number;
 }
 
 export interface Theme {
@@ -34,12 +34,12 @@ export interface BarLayout {
 	right: string[];
 }
 
-// bar-only spacing; the shared margin/padding/border_width come from theme
+// bar-only spacing; the shared margin/padding/borderWidth come from theme
 export interface BarSpacing {
-	padding_large: number;
-	workspace_spacing: number;
-	workspace_size: number;
-	workspace_pill_width: number;
+	paddingLarge: number;
+	workspaceSpacing: number;
+	workspaceSize: number;
+	workspacePillWidth: number;
 }
 
 export interface BarConfig {
@@ -53,9 +53,9 @@ export interface BarConfig {
 export type Corner = "top-left" | "top-right" | "bottom-left" | "bottom-right";
 
 export interface NotifFonts {
-	size_app: number;
-	size_summary: number;
-	size_body: number;
+	sizeApp: number;
+	sizeSummary: number;
+	sizeBody: number;
 }
 
 export interface NotifConfig {
@@ -64,8 +64,8 @@ export interface NotifConfig {
 	corner: Corner;
 	duration: number;
 	width: number;
-	image_size: number;
-	max_chars: number;
+	imageSize: number;
+	maxChars: number;
 	fonts: NotifFonts;
 	colors?: Partial<Palette>;
 	spacing?: Partial<Spacing>;

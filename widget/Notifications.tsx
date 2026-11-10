@@ -80,7 +80,7 @@ function Notification({
 								<label
 									class="body"
 									label={n.body}
-									maxWidthChars={cfg.max_chars}
+									maxWidthChars={cfg.maxChars}
 									useMarkup={true}
 									wrap={true}
 									xalign={0}
