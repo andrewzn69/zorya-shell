@@ -1,21 +1,21 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "compilerOptions": {
-    "strict": true,
-    "resolveJsonModule": true,
-    "module": "ES2022",
-    "target": "ES2020",
-    "lib": ["ES2023"],
-    "moduleResolution": "Bundler",
-    // "checkJs": true,
-    // "allowJs": true,
-    "jsx": "react-jsx",
-    "jsxImportSource": "ags/gtk4",
-    "baseUrl": ".",
-    "paths": {
-      "@lib/*": ["./lib/*"],
-      "@widget/*": ["./widget/*"],
-      "@styles/*": ["./styles/*"]
-    }
-  }
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"compilerOptions": {
+		"strict": true,
+		"resolveJsonModule": true,
+		"module": "ES2022",
+		"target": "ES2020",
+		"lib": ["ES2023"],
+		"moduleResolution": "Bundler",
+		// "checkJs": true,
+		// "allowJs": true,
+		"jsx": "react-jsx",
+		"jsxImportSource": "ags/gtk4",
+		"baseUrl": ".",
+		"paths": {
+			"@lib/*": ["./lib/*"],
+			"@widget/*": ["./widget/*"],
+			"@styles/*": ["./styles/*"]
+		}
+	}
 }

@@ -1,18 +1,18 @@
 @mixin sysinfo-box {
-  background-color: $bar-bg;
-  border: $bar-border-width solid $bar-border;
-  margin: $bar-margin;
-  padding: $bar-padding $bar-padding-large;
-  color: $bar-text;
-  font-family: $bar-font-family;
-  font-size: $bar-font-size;
+	padding: $bar-padding $bar-padding-large;
+	margin: $bar-margin;
+	font-family: $bar-font-family;
+	font-size: $bar-font-size;
+	color: $bar-text;
+	background-color: $bar-bg;
+	border: $bar-border-width solid $bar-border;
 }
 
 .sysinfo-icon {
-  color: $bar-text;
+	color: $bar-text;
 }
 
 .sysinfo-value {
-  color: $bar-text;
-  font-weight: bold;
+	font-weight: bold;
+	color: $bar-text;
 }

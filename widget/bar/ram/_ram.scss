@@ -1,3 +1,5 @@
 window.Bar {
-  .ram-container { @include sysinfo-box; }
+	.ram-container {
+		@include sysinfo-box;
+	}
 }

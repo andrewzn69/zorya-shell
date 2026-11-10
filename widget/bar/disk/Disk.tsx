@@ -1,14 +1,25 @@
-import Gio from "gi://Gio"
-import SysInfo from "@widget/SysInfo"
-import { formatBytes } from "@lib/units"
-import { pollInterval } from "@lib/config"
+import Gio from "gi://Gio";
+import { pollInterval } from "@lib/config";
+import { formatBytes } from "@lib/units";
+import { SysInfo } from "@widget/SysInfo";
 
 function readDiskFree(): number {
-	const file = Gio.File.new_for_path('/')
-	const info = file.query_filesystem_info(Gio.FILE_ATTRIBUTE_FILESYSTEM_FREE, null)
-	return info.get_attribute_uint64(Gio.FILE_ATTRIBUTE_FILESYSTEM_FREE)
+	const file = Gio.File.new_for_path("/");
+	const info = file.query_filesystem_info(
+		Gio.FILE_ATTRIBUTE_FILESYSTEM_FREE,
+		null,
+	);
+	return info.get_attribute_uint64(Gio.FILE_ATTRIBUTE_FILESYSTEM_FREE);
 }
 
-export default function Disk() {
-	return <SysInfo class="disk-container" initial="0 GiB" icon="󰋊 " interval={pollInterval("disk")} poll={() => formatBytes(readDiskFree(), 0)} />
+export function Disk() {
+	return (
+		<SysInfo
+			class="disk-container"
+			icon="󰋊 "
+			initial="0 GiB"
+			interval={pollInterval("disk")}
+			poll={() => formatBytes(readDiskFree(), 0)}
+		/>
+	);
 }

@@ -1,103 +1,103 @@
 window.Notifications {
-  all: unset;
+	all: unset;
 }
 
 .Notification {
-  border-radius: $notif-radius;
-  background-color: $notif-bg;
-  margin: 0.5rem 1rem 0.5rem 1rem;
-  box-shadow: 2px 3px 8px 0 rgba(black, 0.4);
-  border: $notif-border-width solid $notif-border;
+	margin: 0.5rem 1rem 0.5rem 1rem;
+	background-color: $notif-bg;
+	border: $notif-border-width solid $notif-border;
+	border-radius: $notif-radius;
+	box-shadow: 2px 3px 8px 0 rgba(black, 0.4);
 
-  .notif-click {
-    all: unset;
-  }
+	.notif-click {
+		all: unset;
+	}
 
-  &.critical {
-    border: $notif-border-width solid rgba($notif-critical, 0.4);
+	.header {
+		padding: 0.5rem;
+		color: rgba($notif-fg, 0.5);
 
-    .header {
-      .app-name {
-        color: rgba($notif-critical, 0.8);
-      }
+		.app-icon {
+			margin: 0 0.4rem;
+		}
 
-      .app-icon {
-        color: rgba($notif-critical, 0.6);
-      }
-    }
-  }
+		.app-name {
+			margin-right: 0.3rem;
+			font-size: $notif-font-size-app;
+			font-weight: bold;
 
-  .header {
-    padding: 0.5rem;
-    color: rgba($notif-fg, 0.5);
+			&:first-child {
+				margin-left: 0.4rem;
+			}
+		}
 
-    .app-icon {
-      margin: 0 0.4rem;
-    }
+		.time {
+			margin: 0 0.4rem;
+			font-size: $notif-font-size-app;
+			font-weight: bold;
+		}
+	}
 
-    .app-name {
-      margin-right: 0.3rem;
-      font-weight: bold;
-      font-size: $notif-font-size-app;
+	.separator {
+		min-height: 1px;
+		margin: 0 0.4rem;
+		background-color: rgba($notif-fg, 0.1);
+	}
 
-      &:first-child {
-        margin-left: 0.4rem;
-      }
-    }
+	.content {
+		margin: 1rem;
+		margin-top: 0.5rem;
 
-    .time {
-      margin: 0 0.4rem;
-      font-size: $notif-font-size-app;
-      font-weight: bold;
-    }
-  }
+		.summary {
+			font-size: $notif-font-size-summary;
+			color: $notif-fg;
+		}
 
-  .separator {
-    min-height: 1px;
-    margin: 0 0.4rem;
-    background-color: rgba($notif-fg, 0.1);
-  }
+		.body {
+			margin-top: 0.5rem;
+			font-size: $notif-font-size-body;
+			color: rgba($notif-fg, 0.8);
+		}
 
-  .content {
-    margin: 1rem;
-    margin-top: 0.5rem;
+		.image {
+			min-width: 100px;
+			min-height: 100px;
+			margin-right: 0.5rem;
+			background-position: center;
+			background-size: cover;
+			border: 1px solid rgba($notif-fg, 0.02);
+			border-radius: 9px;
+		}
+	}
 
-    .summary {
-      font-size: $notif-font-size-summary;
-      color: $notif-fg;
-    }
+	.actions {
+		margin: 1rem;
+		margin-top: 0;
 
-    .body {
-      margin-top: 0.5rem;
-      font-size: $notif-font-size-body;
-      color: rgba($notif-fg, 0.8);
-    }
+		button {
+			margin: 0 0.3rem;
 
-    .image {
-      border: 1px solid rgba($notif-fg, 0.02);
-      margin-right: 0.5rem;
-      border-radius: 9px;
-      min-width: 100px;
-      min-height: 100px;
-      background-size: cover;
-      background-position: center;
-    }
-  }
+			&:first-child {
+				margin-left: 0;
+			}
 
-  .actions {
-    margin: 1rem;
-    margin-top: 0;
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+	}
 
-    button {
-      margin: 0 0.3rem;
+	&.critical {
+		border: $notif-border-width solid rgba($notif-critical, 0.4);
 
-      &:first-child {
-        margin-left: 0;
-      }
+		.header {
+			.app-name {
+				color: rgba($notif-critical, 0.8);
+			}
 
-      &:last-child {
-        margin-right: 0;
-      }
-    }
-  }
+			.app-icon {
+				color: rgba($notif-critical, 0.6);
+			}
+		}
+	}
 }

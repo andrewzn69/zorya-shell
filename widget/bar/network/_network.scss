@@ -1,3 +1,5 @@
 window.Bar {
-  .network-container { @include sysinfo-box; }
+	.network-container {
+		@include sysinfo-box;
+	}
 }

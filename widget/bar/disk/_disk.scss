@@ -1,3 +1,5 @@
 window.Bar {
-  .disk-container { @include sysinfo-box; }
+	.disk-container {
+		@include sysinfo-box;
+	}
 }
