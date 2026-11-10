@@ -217,7 +217,9 @@ function onFrame(scroller: Scroller) {
 			throw new Error(`unknown spotify phase ${unknownPhase}`);
 		}
 	}
-	adjustment.value = scroller.offset;
+	if (adjustment.value !== scroller.offset) {
+		adjustment.value = scroller.offset;
+	}
 }
 
 function trackTexts(player: Mpris.Player): string[] {
