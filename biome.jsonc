@@ -28,6 +28,12 @@
 			},
 			"suspicious": {
 				"noBitwiseOperators": "off",
+				"noConsole": {
+					"level": "on",
+					"options": {
+						"allow": ["error", "warn"]
+					}
+				},
 				"noUnknownAttribute": "off"
 			}
 		}
