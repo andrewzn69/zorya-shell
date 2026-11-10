@@ -110,9 +110,13 @@ function wait(scroller: Scroller) {
 
 function bounceTitle(scroller: Scroller, maxOffset: number) {
 	scroller.titleShownMs += FRAME_MS;
-	if (scroller.titleShownMs >= TITLE_SHOWN_MS && scroller.texts.length > 1) {
-		startFadeOut(scroller);
-		return;
+	if (scroller.titleShownMs >= TITLE_SHOWN_MS) {
+		if (scroller.texts.length > 1) {
+			startFadeOut(scroller);
+			return;
+		}
+		// artist or album that arrives later waits for a full cycle
+		scroller.titleShownMs = 0;
 	}
 	if (scroller.remainingPauseMs > 0) {
 		scroller.remainingPauseMs -= FRAME_MS;
@@ -160,8 +164,13 @@ function scroll(scroller: Scroller, maxOffset: number) {
 
 function hold(scroller: Scroller) {
 	scroller.phaseMs += FRAME_MS;
-	if (scroller.phaseMs >= scroller.holdMs && scroller.texts.length > 1) {
-		startFadeOut(scroller);
+	if (scroller.phaseMs >= scroller.holdMs) {
+		if (scroller.texts.length > 1) {
+			startFadeOut(scroller);
+		} else {
+			// artist or album that arrives later waits for a full cycle
+			scroller.phaseMs = 0;
+		}
 	}
 }
 
