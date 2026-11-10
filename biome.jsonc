@@ -35,6 +35,7 @@
 		"actions": {
 			"preset": "all",
 			"source": {
+				"useSortedInterfaceMembers": "off",
 				"useSortedKeys": "off"
 			}
 		}
