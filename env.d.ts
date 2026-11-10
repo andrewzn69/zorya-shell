@@ -1,3 +1,5 @@
+// biome-ignore-all lint/style/noDefaultExport: ags bundles these files as default exports
+
 declare const SRC: string;
 
 declare module "inline:*" {
