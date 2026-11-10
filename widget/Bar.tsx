@@ -48,7 +48,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 			exclusivity={Astal.Exclusivity.EXCLUSIVE}
 			gdkmonitor={gdkmonitor}
 			name={`bar-${connector}`}
-			visible
+			visible={true}
 		>
 			<centerbox>
 				<box $type="start">{renderSlot(layout.left)}</box>

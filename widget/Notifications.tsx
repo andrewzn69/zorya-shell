@@ -63,7 +63,7 @@ function Notification({
 						{n.appIcon && <image class="app-icon" iconName={n.appIcon} />}
 						<label
 							class="app-name"
-							hexpand
+							hexpand={true}
 							label={n.appName || "Unknown"}
 							xalign={0}
 						/>
@@ -81,8 +81,8 @@ function Notification({
 									class="body"
 									label={n.body}
 									maxWidthChars={cfg.max_chars}
-									useMarkup
-									wrap
+									useMarkup={true}
+									wrap={true}
 									xalign={0}
 								/>
 							)}
@@ -93,8 +93,8 @@ function Notification({
 			{n.actions.length > 0 && (
 				<box class="actions">
 					{n.actions.map(({ label, id }) => (
-						<button hexpand onClicked={() => n.invoke(id)}>
-							<label hexpand label={label} />
+						<button hexpand={true} onClicked={() => n.invoke(id)}>
+							<label hexpand={true} label={label} />
 						</button>
 					))}
 				</box>
