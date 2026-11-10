@@ -26,6 +26,14 @@
 				"noJsxPropsBind": "off",
 				"useSolidForComponent": "off"
 			},
+			"style": {
+				"useNamingConvention": {
+					"level": "on",
+					"options": {
+						"strictCase": false
+					}
+				}
+			},
 			"suspicious": {
 				"noBitwiseOperators": "off",
 				"noConsole": {
